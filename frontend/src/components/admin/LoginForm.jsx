@@ -1,27 +1,20 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-
-function initialValues () {
-  return {
-    email: '',
-    password: ''
-  }
-}
-
-function validationSchema () {
-  return Yup.object({
-    email: Yup.string().email('Correo electrónico no válido').required('El correo electrónico es obligatorio'),
-    password: Yup.string().required('La contraseña es obligatoria')
-  })
-}
+import { loginApi } from '../../api/user'
 
 export function LoginForm () {
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
-    onSubmit: (formValues) => {
-      console.log('Formulario enviado')
-      console.log(formValues)
+    onSubmit: async (formValues) => {
+      try {
+        const response = await loginApi(formValues)
+        const { access } = response
+        console.log('access', access)
+      } catch (error) {
+        console.log('Error')
+        console.error(error)
+      }
     }
   })
 
@@ -61,4 +54,18 @@ export function LoginForm () {
     </div>
 
   )
+}
+
+function initialValues () {
+  return {
+    email: '',
+    password: ''
+  }
+}
+
+function validationSchema () {
+  return Yup.object({
+    email: Yup.string().email('Correo electrónico no válido').required('El correo electrónico es obligatorio'),
+    password: Yup.string().required('La contraseña es obligatoria')
+  })
 }
