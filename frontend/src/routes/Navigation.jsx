@@ -1,11 +1,23 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { routes } from './routes'
 
 export function Navigation () {
+  console.log('routes ---> ', routes)
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Navigate to='/home' />} />
-        <Route path='/home' element={<p className='text-xl'>Hola Navigation</p>} />
+        {/* <Route path='/' element={<Navigate to='/home' />} /> */}
+        {
+          routes.map((route, index) => {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={route.element}
+              />
+            )
+          })
+        }
       </Routes>
     </BrowserRouter>
   )
