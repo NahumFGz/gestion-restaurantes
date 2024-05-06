@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { routes } from './routes'
 
 export function Navigation () {
-  console.log('routes ---> ', routes)
   return (
     <BrowserRouter>
       <Routes>
