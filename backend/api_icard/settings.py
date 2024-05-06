@@ -134,3 +134,10 @@ CORS_ALLOWED_ORIGINS = [
 
 # Users
 AUTH_USER_MODEL = "users.User"
+
+# Simple JWT -> https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
