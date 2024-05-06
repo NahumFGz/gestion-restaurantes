@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
@@ -33,7 +33,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # Rutas de documentación
     path(
         "docs/v1/",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -44,4 +44,7 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
+    # Rutas de la API
+    path("admin/", admin.site.urls),
+    path("api/", include("users.api.routes")),
 ]
