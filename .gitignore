@@ -1,0 +1,29 @@
+# Ignorar carpetas my_env, node_modules
+my_env/
+node_modules/
+
+# Ambientes Virtuales de Python
+my_env/
+my_env/*
+venv_*/
+z_venv_*/
+
+
+# Archivos de paquetes de Python
+*.egg-info/
+dist/
+
+# Archivos de configuración local de Python
+.Python
+*.pyc
+
+# Carpetas de configuración y archivos temporales de IDEs/Editores
+.vscode/
+
+# Ignorar carpetas __pycache__
+__pycache__
+
+# Ignorar todos los .DS_Store
+.DS_Store
+.DS_Store/*
+.sqlite3
