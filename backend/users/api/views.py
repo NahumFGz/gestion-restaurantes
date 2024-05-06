@@ -14,3 +14,10 @@ class UserApiViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         request.data["password"] = make_password(request.data["password"])
         return super().create(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        if "password" in request.data:
+            request.data["password"] = make_password(request.data["password"])
+        else:
+            request.data["password"] = request.user.password
+        return super().partial_update(request, *args, **kwargs)
