@@ -3,7 +3,7 @@ import { Home } from '../pages/client'
 
 export const routesClient = [
   {
-    path: '/',
+    path: '/home',
     layout: ClientLayout,
     component: Home
   }

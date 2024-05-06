@@ -6,14 +6,18 @@ export function Navigation () {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={<Navigate to='/home' />} /> */}
+        <Route path='/' element={<Navigate to='/home' />} />
         {
           routes.map((route, index) => {
             return (
               <Route
                 key={index}
                 path={route.path}
-                element={route.element}
+                element={
+                  <route.layout>
+                    <route.component />
+                  </route.layout>
+                }
               />
             )
           })
