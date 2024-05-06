@@ -1,7 +1,9 @@
+import { Navigation } from './routes'
+
 function App () {
   return (
     <>
-      <p className='text-xl'>Hola Mundo</p>
+      <Navigation />
     </>
   )
 }
