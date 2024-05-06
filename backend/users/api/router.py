@@ -8,4 +8,5 @@ router.register(prefix="users", viewset=views.UserApiViewSet, basename="users")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("auth/me/", views.UserView.as_view()),
 ]
