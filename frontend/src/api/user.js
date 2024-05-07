@@ -24,3 +24,26 @@ export async function loginApi (formData) {
     throw new Error('Error al iniciar sesión')
   }
 }
+
+export async function getMeApi (token) {
+  try {
+    const url = `${API_KEY}/api/auth/me/`
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 200) {
+      throw new Error('Error al obtener el usuario')
+    }
+
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al obtener el usuario')
+  }
+}

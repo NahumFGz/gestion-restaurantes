@@ -1,7 +1,8 @@
 import { LoginAdmin } from '../pages/admin'
+import { useAuth } from '../hooks'
 
 export function AdminLayout ({ children }) {
-  const auth = null
+  const { auth } = useAuth()
 
   if (!auth) return <LoginAdmin />
 

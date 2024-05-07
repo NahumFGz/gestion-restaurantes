@@ -1,4 +1,6 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
+import { setToken } from '../api/token'
+import { useUser } from '../hooks'
 
 // 1. Crear el contexto
 export const AuthContext = createContext({
@@ -9,10 +11,24 @@ export const AuthContext = createContext({
 
 // 2. Crear el provider
 export function AuthProvider ({ children }) {
-  const valueContext = 'Hola desde el contexto'
+  const [auth, setAuth] = useState(undefined)
+  const { getMe } = useUser()
+
+  const login = async (token) => {
+    setToken(token)
+    const me = await getMe(token)
+    setAuth({ token, me })
+    console.log('Usuario ME', me)
+  }
+
+  const valueContext = {
+    auth,
+    login,
+    logout: () => console.log('Cerrando sesión')
+  }
 
   return (
-    <AuthContext.Provider value={{ valueContext }}>
+    <AuthContext.Provider value={valueContext}>
       {children}
     </AuthContext.Provider>
   )

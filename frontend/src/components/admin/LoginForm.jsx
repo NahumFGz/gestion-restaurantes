@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks'
 import * as Yup from 'yup'
 
 export function LoginForm () {
-  console.log(useAuth())
+  const { login } = useAuth()
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -14,7 +14,7 @@ export function LoginForm () {
       try {
         const response = await loginApi(formValues)
         const { access } = response
-        console.log('access', access)
+        login(access)
       } catch (error) {
         toast.error(error.message)
       }
