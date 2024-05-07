@@ -1,9 +1,12 @@
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { loginApi } from '../../api/user'
 import { toast } from 'react-toastify'
+import { useAuth } from '../../hooks'
+import * as Yup from 'yup'
 
 export function LoginForm () {
+  console.log(useAuth())
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),

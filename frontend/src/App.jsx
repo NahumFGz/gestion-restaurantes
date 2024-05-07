@@ -1,22 +1,25 @@
 import { Navigation } from './routes'
 import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from './context'
 
 function App () {
   return (
-    <div>
-      <Navigation />
-      <ToastContainer
-        position='bottom-center'
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
-    </div>
+    <>
+      <AuthProvider>
+        <Navigation />
+        <ToastContainer
+          position='bottom-center'
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+        />
+      </AuthProvider>
+    </>
   )
 }
 
