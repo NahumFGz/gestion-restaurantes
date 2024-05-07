@@ -1,5 +1,5 @@
-import { createContext, useState } from 'react'
-import { setToken } from '../api/token'
+import { createContext, useState, useEffect } from 'react'
+import { setToken, getToken } from '../api/token'
 import { useUser } from '../hooks'
 
 // 1. Crear el contexto
@@ -21,11 +21,22 @@ export function AuthProvider ({ children }) {
     console.log('Usuario ME', me)
   }
 
+  useEffect(() => {
+    const token = getToken()
+    if (!token) {
+      setAuth(null)
+    } else {
+      login(token)
+    }
+  }, [])
+
   const valueContext = {
     auth,
     login,
     logout: () => console.log('Cerrando sesión')
   }
+
+  if (auth === undefined) return null
 
   return (
     <AuthContext.Provider value={valueContext}>
