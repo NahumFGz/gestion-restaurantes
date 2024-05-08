@@ -47,3 +47,26 @@ export async function getMeApi (token) {
     throw new Error('Error al obtener el usuario')
   }
 }
+
+export async function getUsersApi (token) {
+  try {
+    const url = `${API_KEY}/api/users/`
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 200) {
+      throw new Error('Error al obtener los usuarios')
+    }
+
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al obtener los usuarios')
+  }
+}
