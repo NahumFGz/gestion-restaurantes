@@ -1,5 +1,6 @@
 import { LoginAdmin } from '../pages/admin'
 import { useAuth } from '../hooks'
+import { SideMenu, TopMenu } from '../components'
 
 export function AdminLayout ({ children }) {
   const { auth } = useAuth()
@@ -8,8 +9,13 @@ export function AdminLayout ({ children }) {
 
   return (
     <div>
-      <p>AdminLayout</p>
-      {children}
+      <div>
+        <TopMenu />
+      </div>
+
+      <SideMenu>
+        {children}
+      </SideMenu>
     </div>
 
   )
