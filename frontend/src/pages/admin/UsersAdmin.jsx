@@ -14,7 +14,7 @@ export function UsersAdmin () {
 
   return (
     <>
-      <HeaderPage title='Usuarios' />
+      <HeaderPage title='Usuarios' btnTitle='Nuevo usuario' />
       {
         loading
           ? <Loading />
