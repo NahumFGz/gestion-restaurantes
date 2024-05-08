@@ -19,7 +19,7 @@ export function UsersAdmin () {
 
   const addUser = () => {
     setTitleModal('Nuevo usuario')
-    setContentModal(<AddEditUserForm />)
+    setContentModal(<AddEditUserForm onClose={openCloseModal} />)
     openCloseModal()
   }
   return (

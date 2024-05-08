@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useUser } from '../../hooks'
 import * as Yup from 'yup'
 
-export function AddEditUserForm () {
+export function AddEditUserForm ({ onClose }) {
   const { addUser } = useUser()
 
   // Generar IDs únicos para cada input
@@ -38,7 +38,7 @@ export function AddEditUserForm () {
     onSubmit: async (formValues) => {
       try {
         await addUser(formValues)
-        console.log('Usuario guardado')
+        onClose()
       } catch (error) {
         console.error(error)
       }
