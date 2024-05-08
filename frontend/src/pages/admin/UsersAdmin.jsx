@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useUser } from '../../hooks'
-import { HeaderPage, Loading, ModalBasic, TableUsers } from '../../components'
+import { AddEditUserForm, HeaderPage, Loading, ModalBasic, TableUsers } from '../../components'
 
 export function UsersAdmin () {
   const { loading, users, getUsers } = useUser()
@@ -17,18 +17,22 @@ export function UsersAdmin () {
 
   const openCloseModal = () => setShowModal((prevState) => !prevState)
 
+  const addUser = () => {
+    setTitleModal('Nuevo usuario')
+    setContentModal(<AddEditUserForm />)
+    openCloseModal()
+  }
   return (
     <>
-      <HeaderPage title='Usuarios' btnTitle='Nuevo usuario' btnClick={openCloseModal} />
+      <HeaderPage title='Usuarios' btnTitle='Nuevo usuario' btnClick={addUser} />
       {
         loading
           ? <Loading />
           : <TableUsers users={users} />
       }
 
-      <ModalBasic title='Crear usuario' show={showModal} onClose={openCloseModal}>
-        <p> Formulario de creación de usuario </p>
-        <p> wawa </p>
+      <ModalBasic title={titleModal} show={showModal} onClose={addUser}>
+        {contentModal}
       </ModalBasic>
     </>
   )
