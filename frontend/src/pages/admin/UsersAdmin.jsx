@@ -7,8 +7,9 @@ export function UsersAdmin () {
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState(null)
   const [contentModal, setContentModal] = useState(null)
+  const [refetch, setRefetch] = useState(false)
 
-  useEffect(() => { getUsers() }, [])
+  useEffect(() => { getUsers() }, [refetch])
 
   useEffect(() => {
     console.log('loading:', loading)
@@ -16,10 +17,11 @@ export function UsersAdmin () {
   }, [users])
 
   const openCloseModal = () => setShowModal((prevState) => !prevState)
+  const onRefetch = () => setRefetch((prevState) => !prevState)
 
   const addUser = () => {
     setTitleModal('Nuevo usuario')
-    setContentModal(<AddEditUserForm onClose={openCloseModal} />)
+    setContentModal(<AddEditUserForm onClose={openCloseModal} onRefetch={onRefetch} />)
     openCloseModal()
   }
   return (
