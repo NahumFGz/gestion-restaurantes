@@ -70,3 +70,28 @@ export async function getUsersApi (token) {
     throw new Error('Error al obtener los usuarios')
   }
 }
+
+export async function addUserApi (token, formData) {
+  try {
+    const url = `${API_KEY}/api/users/`
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(formData)
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 201) {
+      throw new Error('Error al crear el usuario')
+    }
+
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al crear el usuario')
+  }
+}

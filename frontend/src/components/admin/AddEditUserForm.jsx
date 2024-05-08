@@ -1,8 +1,11 @@
 import { useId } from 'react'
 import { useFormik } from 'formik'
+import { useUser } from '../../hooks'
 import * as Yup from 'yup'
 
 export function AddEditUserForm () {
+  const { addUser } = useUser()
+
   // Generar IDs únicos para cada input
   const userId = useId()
   const emailId = useId()
@@ -32,8 +35,13 @@ export function AddEditUserForm () {
       is_active: Yup.boolean().required('El estado del usuario es obligatorio'),
       is_staff: Yup.boolean().required('El rol del usuario es obligatorio')
     }),
-    onSubmit: (formValues) => {
-      console.log('Datos del formulario: ', formValues)
+    onSubmit: async (formValues) => {
+      try {
+        await addUser(formValues)
+        console.log('Usuario guardado')
+      } catch (error) {
+        console.error(error)
+      }
     }
   })
 
