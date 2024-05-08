@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useUser } from '../../hooks'
+import { HeaderPage, Loading, TableUsers } from '../../components'
 
 export function UsersAdmin () {
   const { loading, users, getUsers } = useUser()
@@ -12,9 +13,13 @@ export function UsersAdmin () {
   }, [users])
 
   return (
-    <div>
-      <p>Estamos en users Admin</p>
-    </div>
-
+    <>
+      <HeaderPage title='Usuarios' />
+      {
+        loading
+          ? <Loading />
+          : <TableUsers users={users} />
+      }
+    </>
   )
 }
