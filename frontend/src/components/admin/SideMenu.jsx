@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../hooks'
 
 export function SideMenu ({ children }) {
   const { pathname } = useLocation()
@@ -14,6 +15,8 @@ export function SideMenu ({ children }) {
 }
 
 export function MenuLeft ({ children, pathname }) {
+  const { auth } = useAuth()
+
   return (
     <div className='flex'>
       <div className='fixed left-0 top-[40px] border border-solid min-h-screen w-[200px] bg-white shadow-lg'>
@@ -48,12 +51,16 @@ export function MenuLeft ({ children, pathname }) {
             >Productos
             </li>
           </Link>
-          <Link to='/admin/users'>
-            <li
-              className={`p-2 cursor-pointer ${pathname === '/admin/users' ? 'bg-gray-200' : ''}`}
-            >Usuarios
-            </li>
-          </Link>
+          {
+            auth.me?.is_staff && (
+              <Link to='/admin/users'>
+                <li
+                  className={`p-2 cursor-pointer ${pathname === '/admin/users' ? 'bg-gray-200' : ''}`}
+                >Usuarios
+                </li>
+              </Link>
+            )
+          }
         </ul>
       </div>
 
