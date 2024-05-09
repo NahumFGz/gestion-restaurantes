@@ -47,4 +47,5 @@ urlpatterns = [
     # Rutas de la API
     path("admin/", admin.site.urls),
     path("api/", include("users.api.router")),
+    path("api/", include("categories.api.router")),
 ]
