@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { useFormik } from 'formik'
+import { useCategory } from '../../hooks'
 import * as Yup from 'yup'
 
 export function AddEditCategoryForm () {
@@ -7,6 +8,7 @@ export function AddEditCategoryForm () {
   const imageId = useId()
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState('')
+  const { addCategory } = useCategory()
 
   const formik = useFormik({
     initialValues: {
@@ -18,8 +20,13 @@ export function AddEditCategoryForm () {
       image: Yup.mixed().required('La imagen es requerida')
     }),
     validateOnChange: false,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (formValues) => {
+      try {
+        await addCategory(formValues)
+        console.log('Se ha creado una nueva categoría')
+      } catch (error) {
+        console.error(error)
+      }
     }
   })
 

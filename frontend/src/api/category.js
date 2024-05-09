@@ -21,3 +21,31 @@ export async function getCategoriesApi () {
     throw new Error('Error al obtener las categorías')
   }
 }
+
+export async function addCategoryApi (data, token) {
+  try {
+    const formData = new FormData()
+    formData.append('image', data.image)
+    formData.append('title', data.category)
+
+    const url = `${API_KEY}/api/categories/`
+    const params = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 201) {
+      throw new Error('Error al crear la categoría')
+    }
+
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al crear la categoría')
+  }
+}
