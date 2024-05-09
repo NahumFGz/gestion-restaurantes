@@ -34,8 +34,12 @@ export function UsersAdmin () {
   const onDeleteUser = async (username, id) => {
     const confirm = window.confirm(`¿Estás seguro de eliminar este usuario ${username}?`)
     if (confirm) {
-      await deleteUser(id)
-      onRefetch()
+      try {
+        await deleteUser(id)
+        onRefetch()
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 
