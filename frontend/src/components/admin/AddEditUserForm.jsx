@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useEffect, useId } from 'react'
 import { useFormik } from 'formik'
 import { useUser } from '../../hooks'
 import * as Yup from 'yup'
@@ -51,6 +51,21 @@ export function AddEditUserForm ({ onClose, onRefetch, user }) {
       }
     }
   })
+
+  // useEffect para actualizar el formulario cuando cambie el usuario
+  useEffect(() => {
+    formik.resetForm({
+      values: {
+        username: user?.username || '',
+        email: user?.email || '',
+        first_name: user?.first_name || '',
+        last_name: user?.last_name || '',
+        password: '',
+        is_active: user?.is_active || true,
+        is_staff: user?.is_staff || false
+      }
+    })
+  }, [user])
 
   return (
     <form
