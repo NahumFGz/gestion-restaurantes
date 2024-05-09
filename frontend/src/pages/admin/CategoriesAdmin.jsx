@@ -10,7 +10,13 @@ export function CategoriesAdmin () {
 
   useEffect(() => { getCategories() }, [])
 
-  const openCloseModal = () => setShowModal((prevState) => !prevState)
+  const openCloseModal = () => {
+    if (showModal) {
+      setTitleModal(null)
+      setContentModal(null)
+    }
+    setShowModal((prevState) => !prevState)
+  }
 
   const addCategory = () => {
     setTitleModal('Nueva categoría')
