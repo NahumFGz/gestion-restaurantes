@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useCategory } from '../../hooks'
 import * as Yup from 'yup'
 
-export function AddEditCategoryForm () {
+export function AddEditCategoryForm ({ onClose, onRefetch }) {
   const categoryId = useId()
   const imageId = useId()
   const [imageFile, setImageFile] = useState(null)
@@ -24,6 +24,8 @@ export function AddEditCategoryForm () {
       try {
         await addCategory(formValues)
         console.log('Se ha creado una nueva categoría')
+        onRefetch()
+        onClose()
       } catch (error) {
         console.error(error)
       }

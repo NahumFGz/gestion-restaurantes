@@ -1,4 +1,6 @@
 export function TableCategory ({ categories }) {
+  categories.sort((a, b) => a.title.localeCompare(b.title))
+
   return (
     <div className='overflow-auto shadow-lg rounded-lg'>
       <table className='w-full table-auto bg-white rounded-lg border border-gray-200'>
