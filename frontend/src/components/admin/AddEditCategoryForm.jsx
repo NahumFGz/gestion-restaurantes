@@ -1,4 +1,6 @@
 import { useId, useState } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 export function AddEditCategoryForm () {
   const categoryId = useId()
@@ -6,9 +8,25 @@ export function AddEditCategoryForm () {
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState('')
 
+  const formik = useFormik({
+    initialValues: {
+      category: '',
+      image: ''
+    },
+    validationSchema: Yup.object({
+      category: Yup.string().required('El nombre de la categoría es requerido'),
+      image: Yup.mixed().required('La imagen es requerida')
+    }),
+    validateOnChange: false,
+    onSubmit: (values) => {
+      console.log(values)
+    }
+  })
+
   const handleImageChange = (event) => {
     const file = event.target.files[0]
     setImageFile(file)
+    formik.setFieldValue('image', file)
 
     if (file) {
       const reader = new window.FileReader()
@@ -26,7 +44,7 @@ export function AddEditCategoryForm () {
   }
 
   return (
-    <form className='space-y-6' onSubmit=''>
+    <form className='space-y-6' onSubmit={formik.handleSubmit}>
       <div className='grid grid-cols-1 gap-4'>
         <div>
           <label htmlFor={categoryId} className='block text-sm font-medium text-gray-700'>
@@ -35,9 +53,9 @@ export function AddEditCategoryForm () {
           <input
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id={categoryId} name='category' type='text'
-            value=''
-            onChange=''
-            onBlur=''
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
         </div>
         <div>
