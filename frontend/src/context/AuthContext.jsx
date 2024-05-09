@@ -18,7 +18,7 @@ export function AuthProvider ({ children }) {
     setToken(token)
     const me = await getMe(token)
     setAuth({ token, me })
-    console.log('Usuario ME', me)
+    // console.log('Usuario ME', me)
   }
 
   const logout = () => {
