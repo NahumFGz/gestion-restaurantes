@@ -16,7 +16,14 @@ export function UsersAdmin () {
     console.log('users:', users)
   }, [users])
 
-  const openCloseModal = () => setShowModal((prevState) => !prevState)
+  const openCloseModal = () => {
+    if (showModal) {
+      setTitleModal(null)
+      setContentModal(null)
+    }
+    setShowModal((prevState) => !prevState)
+  }
+
   const onRefetch = () => setRefetch((prevState) => !prevState)
 
   const addUser = () => {
