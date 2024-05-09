@@ -114,3 +114,22 @@ export async function updateUserApi (token, formData, id) {
     throw new Error('Error al actualizar el usuario')
   }
 }
+
+export async function deleteUserApi (token, id) {
+  try {
+    const url = `${API_KEY}/api/users/${id}/`
+    const params = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const response = await fetch(url, params)
+    if (response.status !== 204) {
+      throw new Error('Error al eliminar el usuario')
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar el usuario')
+  }
+}

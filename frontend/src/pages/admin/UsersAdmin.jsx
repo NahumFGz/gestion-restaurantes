@@ -3,7 +3,7 @@ import { useUser } from '../../hooks'
 import { AddEditUserForm, HeaderPage, Loading, ModalBasic, TableUsers } from '../../components'
 
 export function UsersAdmin () {
-  const { loading, users, getUsers } = useUser()
+  const { loading, users, getUsers, deleteUser } = useUser()
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState(null)
   const [contentModal, setContentModal] = useState(null)
@@ -31,13 +31,21 @@ export function UsersAdmin () {
     openCloseModal()
   }
 
+  const onDeleteUser = async (username, id) => {
+    const confirm = window.confirm(`¿Estás seguro de eliminar este usuario ${username}?`)
+    if (confirm) {
+      await deleteUser(id)
+      onRefetch()
+    }
+  }
+
   return (
     <>
       <HeaderPage title='Usuarios' btnTitle='Nuevo usuario' btnClick={addUser} />
       {
         loading
           ? <Loading />
-          : <TableUsers users={users} updateUser={updateUser} />
+          : <TableUsers users={users} updateUser={updateUser} deleteUser={onDeleteUser} />
       }
 
       <ModalBasic title={titleModal} show={showModal} onClose={addUser}>

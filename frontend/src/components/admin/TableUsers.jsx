@@ -1,6 +1,6 @@
 import { CheckBadgeIcon, XMarkIcon } from '@heroicons/react/24/solid'
 
-export function TableUsers ({ users, updateUser }) {
+export function TableUsers ({ users, updateUser, deleteUser }) {
   return (
     <div className='overflow-auto shadow-lg rounded-lg'>
       <table className='w-full table-auto bg-white rounded-lg border border-gray-200'>
@@ -47,7 +47,7 @@ export function TableUsers ({ users, updateUser }) {
                 </button>
                 <button
                   className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Eliminar:', user.id)}
+                  onClick={() => deleteUser(user.email, user.id)}
                 >
                   Eliminar
                 </button>
