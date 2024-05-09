@@ -2,6 +2,7 @@ import { useId, useState } from 'react'
 
 export function AddEditCategoryForm () {
   const categoryId = useId()
+  const imageId = useId()
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState('')
 
@@ -21,7 +22,7 @@ export function AddEditCategoryForm () {
   }
 
   const handleUploadButtonClick = () => {
-    document.getElementById('uploadImageInput').click()
+    document.getElementById(imageId).click()
   }
 
   return (
@@ -40,15 +41,18 @@ export function AddEditCategoryForm () {
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label
+            className='block text-sm font-medium text-gray-700'
+            htmlFor={imageId}
+          >
             Subir imagen
           </label>
           <input
             className='hidden'
-            id='uploadImageInput'
+            id={imageId}
             name='image'
             type='file'
-            accept='image/*'
+            accept='.png, .jpg, .jpeg'
             onChange={handleImageChange}
           />
           <button
