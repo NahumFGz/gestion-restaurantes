@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { useUser } from '../../hooks'
 import * as Yup from 'yup'
 
-export function AddEditUserForm ({ onClose, onRefetch }) {
+export function AddEditUserForm ({ onClose, onRefetch, user }) {
   const { addUser } = useUser()
 
   // Generar IDs únicos para cada input
@@ -18,26 +18,32 @@ export function AddEditUserForm ({ onClose, onRefetch }) {
   // Validación de formulario con Yup
   const formik = useFormik({
     initialValues: {
-      username: '',
-      email: '',
-      first_name: '',
-      last_name: '',
+      username: user?.username || '',
+      email: user?.email || '',
+      first_name: user?.first_name || '',
+      last_name: user?.last_name || '',
       password: '',
-      is_active: true,
-      is_staff: false
+      is_active: user?.is_active || true,
+      is_staff: user?.is_staff || false
     },
     validationSchema: Yup.object({
       username: Yup.string().required('El usuario es obligatorio'),
       email: Yup.string().email('El correo no es válido').required('El correo es obligatorio'),
       first_name: Yup.string(),
       last_name: Yup.string(),
-      password: Yup.string().required('La contraseña es obligatoria'),
+      password: user ? Yup.string() : Yup.string().required('La contraseña es obligatoria'),
       is_active: Yup.boolean().required('El estado del usuario es obligatorio'),
       is_staff: Yup.boolean().required('El rol del usuario es obligatorio')
     }),
     onSubmit: async (formValues) => {
       try {
-        await addUser(formValues)
+        if (!user) {
+          await addUser(formValues)
+          console.log('Se ha creado un nuevo usuario')
+        } else {
+          // await updateUser(formValues)
+          console.log('Actualizar usuario:', formValues)
+        }
         onRefetch()
         onClose()
       } catch (error) {
@@ -144,7 +150,7 @@ export function AddEditUserForm ({ onClose, onRefetch }) {
           className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
           type='submit'
         >
-          Guardar
+          {user ? 'Actualizar' : 'Crear'}
         </button>
       </div>
     </form>
