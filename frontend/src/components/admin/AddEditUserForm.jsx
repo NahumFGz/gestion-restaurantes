@@ -39,6 +39,7 @@ export function AddEditUserForm ({ onClose, onRefetch, user }) {
       try {
         if (!user) {
           await addUser(formValues)
+          setNewUserValues()
           console.log('Se ha creado un nuevo usuario')
         } else {
           await updateUser(formValues, user.id)
@@ -52,19 +53,42 @@ export function AddEditUserForm ({ onClose, onRefetch, user }) {
     }
   })
 
-  // useEffect para actualizar el formulario cuando cambie el usuario
-  useEffect(() => {
+  // Funciones para establecer los valores iniciales
+  const setNewUserValues = () => {
     formik.resetForm({
       values: {
-        username: user?.username || '',
-        email: user?.email || '',
-        first_name: user?.first_name || '',
-        last_name: user?.last_name || '',
+        username: '',
+        email: '',
+        first_name: '',
+        last_name: '',
         password: '',
-        is_active: user?.is_active || true,
-        is_staff: user?.is_staff || false
+        is_active: true,
+        is_staff: false
       }
     })
+  }
+
+  const setEditUserValues = (user) => {
+    formik.resetForm({
+      values: {
+        username: user.username || '',
+        email: user.email || '',
+        first_name: user.first_name || '',
+        last_name: user.last_name || '',
+        password: '', // Mantén la contraseña vacía por seguridad
+        is_active: user.is_active || true,
+        is_staff: user.is_staff || false
+      }
+    })
+  }
+
+  // useEffect para actualizar el formulario según el contexto (nuevo o editar)
+  useEffect(() => {
+    if (user) {
+      setEditUserValues(user)
+    } else {
+      setNewUserValues()
+    }
   }, [user])
 
   return (
