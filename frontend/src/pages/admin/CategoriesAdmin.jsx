@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { HeaderPage, Loading } from '../../components'
+import { HeaderPage, Loading, TableCategory } from '../../components'
 import { useCategory } from '../../hooks'
 
 export function CategoriesAdmin () {
@@ -14,7 +14,7 @@ export function CategoriesAdmin () {
       {
         loading
           ? (<Loading />)
-          : 'Categorías'
+          : <TableCategory categories={categories} />
       }
     </>
   )
