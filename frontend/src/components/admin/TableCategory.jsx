@@ -13,7 +13,13 @@ export function TableCategory ({ categories }) {
           {categories.map((category) => (
             <tr key={category.id} className='border-b border-gray-200 hover:bg-gray-100'>
               <td className='px-6 py-4'>{category.title}</td>
-              <td className='px-6 py-4'>{category.image}</td>
+              <td className='px-6 py-4'>
+                <img
+                  src={category.image}
+                  alt={`Imagen de ${category.title}`}
+                  className='h-16 w-16 object-cover rounded'
+                />
+              </td>
               <td className='flex text-sm justify-start gap-2 px-6 py-4'>
                 <button
                   className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
