@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getMeApi, getUsersApi, addUserApi } from '../api/user'
+import { getMeApi, getUsersApi, addUserApi, updateUserApi } from '../api/user'
 import { useAuth } from './useAuth'
 
 export function useUser () {
@@ -40,5 +40,16 @@ export function useUser () {
     }
   }
 
-  return { getMe, getUsers, addUser, loading, error, users }
+  const updateUser = async (formData, id) => {
+    try {
+      setLoading(true)
+      await updateUserApi(auth.token, formData, id)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+    }
+  }
+
+  return { getMe, getUsers, addUser, updateUser, loading, error, users }
 }

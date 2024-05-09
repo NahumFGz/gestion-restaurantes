@@ -4,7 +4,7 @@ import { useUser } from '../../hooks'
 import * as Yup from 'yup'
 
 export function AddEditUserForm ({ onClose, onRefetch, user }) {
-  const { addUser } = useUser()
+  const { addUser, updateUser } = useUser()
 
   // Generar IDs únicos para cada input
   const userId = useId()
@@ -41,8 +41,8 @@ export function AddEditUserForm ({ onClose, onRefetch, user }) {
           await addUser(formValues)
           console.log('Se ha creado un nuevo usuario')
         } else {
-          // await updateUser(formValues)
-          console.log('Actualizar usuario:', formValues)
+          await updateUser(formValues, user.id)
+          console.log('Actualizar usuario:', user.id, formValues)
         }
         onRefetch()
         onClose()

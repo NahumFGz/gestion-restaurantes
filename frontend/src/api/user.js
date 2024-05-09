@@ -95,3 +95,22 @@ export async function addUserApi (token, formData) {
     throw new Error('Error al crear el usuario')
   }
 }
+
+export async function updateUserApi (token, formData, id) {
+  try {
+    const url = `${API_KEY}/api/users/${id}/`
+    const params = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(formData)
+    }
+    const response = await fetch(url, params)
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al actualizar el usuario')
+  }
+}
