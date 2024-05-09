@@ -3,9 +3,21 @@ import { useId, useState } from 'react'
 export function AddEditCategoryForm () {
   const categoryId = useId()
   const [imageFile, setImageFile] = useState(null)
+  const [imagePreview, setImagePreview] = useState('')
 
   const handleImageChange = (event) => {
-    setImageFile(event.target.files[0])
+    const file = event.target.files[0]
+    setImageFile(file)
+
+    if (file) {
+      const reader = new window.FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    } else {
+      setImagePreview('')
+    }
   }
 
   const handleUploadButtonClick = () => {
@@ -36,6 +48,7 @@ export function AddEditCategoryForm () {
             id='uploadImageInput'
             name='image'
             type='file'
+            accept='image/*'
             onChange={handleImageChange}
           />
           <button
@@ -45,6 +58,15 @@ export function AddEditCategoryForm () {
           >
             {imageFile ? `Imagen: ${imageFile.name}` : 'Seleccionar imagen'}
           </button>
+          {imagePreview && (
+            <div className='mt-4 flex flex-row justify-center'>
+              <img
+                src={imagePreview}
+                alt='Vista previa'
+                className='h-36 border border-gray-300 rounded-md'
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className='mt-4'>
