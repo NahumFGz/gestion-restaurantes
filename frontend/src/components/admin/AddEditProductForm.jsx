@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCategory, useProducts } from '../../hooks'
 
-export function AddEditProductForm ({ onClose, onRefetch }) {
+export function AddEditProductForm ({ onClose, onRefetch, product }) {
   const idProduct = useId()
   const idPrice = useId()
   const idCategory = useId()
@@ -12,8 +12,8 @@ export function AddEditProductForm ({ onClose, onRefetch }) {
 
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
-  const [imagePreview, setImagePreview] = useState(null)
-  const { addProduct } = useProducts()
+  const [imagePreview, setImagePreview] = useState(null || product?.image)
+  const { addProduct, updateProduct } = useProducts()
 
   useEffect(() => {
     getCategories()
@@ -25,10 +25,10 @@ export function AddEditProductForm ({ onClose, onRefetch }) {
 
   const formik = useFormik({
     initialValues: {
-      product: '',
-      price: '',
-      category: '',
-      is_active: false,
+      product: '' || product?.title,
+      price: '' || product?.price,
+      category: '' || product?.category,
+      is_active: false || product?.active,
       image: null
     },
     validationSchema: Yup.object({
@@ -39,12 +39,17 @@ export function AddEditProductForm ({ onClose, onRefetch }) {
         .required('El precio es obligatorio'),
       category: Yup.string().required('La categoría es obligatoria'),
       is_active: Yup.boolean(),
-      image: Yup.mixed().required('Se requiere una imagen')
+      image: product ? Yup.string().notRequired() : Yup.mixed().required('Se requiere una imagen')
     }),
     onSubmit: async (values) => {
       console.log('Formulario enviado:', values)
       try {
-        await addProduct(values)
+        if (!product) {
+          await addProduct(values)
+        } else {
+          console.log('Actualizar producto:', values)
+          await updateProduct(product.id, values)
+        }
         onRefetch()
         onClose()
       } catch (error) {

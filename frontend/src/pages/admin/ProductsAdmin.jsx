@@ -28,12 +28,18 @@ export function ProducsAdmin () {
     openCloseModal()
   }
 
+  const updateProduct = (product) => {
+    setTitleModal('Editar producto')
+    setContentModal(<AddEditProductForm product={product} onClose={openCloseModal} onRefetch={onRefetch} />)
+    openCloseModal()
+  }
+
   return (
     <>
       <HeaderPage title='Productos' btnTitle='Nuevo producto' btnClick={addProduct} />
       {loading
         ? <Loading />
-        : <TableProducts products={products} />}
+        : <TableProducts products={products} updateProduct={updateProduct} />}
 
       <ModalBasic
         title={titleModal}

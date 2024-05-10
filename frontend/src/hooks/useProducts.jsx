@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { addProductApi, getProductsApi } from '../api/products'
+import { addProductApi, getProductsApi, updateProductApi } from '../api/products'
 import { useAuth } from './useAuth'
 
 export function useProducts () {
@@ -31,5 +31,16 @@ export function useProducts () {
     }
   }
 
-  return { loading, error, products, getProducts, addProduct }
+  const updateProduct = async (categoryId, data) => {
+    try {
+      setLoading(true)
+      await updateProductApi(categoryId, data, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setError(error)
+      throw new Error('Error al actualizar el producto')
+    }
+  }
+
+  return { loading, error, products, getProducts, addProduct, updateProduct }
 }
