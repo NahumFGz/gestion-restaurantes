@@ -1,9 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCategory } from '../../hooks'
 
 export function AddEditProductForm () {
+  const idProduct = useRef('id-product')
+  const idPrice = useRef('id-price')
+  const idCategory = useRef('id-category')
+  const idActive = useRef('id-active')
+  const idImage = useRef('id-image')
+
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
   const [imagePreview, setImagePreview] = useState(null)
@@ -17,15 +23,30 @@ export function AddEditProductForm () {
   }, [categories])
 
   const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: newSchema(),
+    initialValues: {
+      product: '',
+      price: '',
+      category: '',
+      is_active: false,
+      image: null
+    },
+    validationSchema: Yup.object({
+      product: Yup.string().required('El nombre del producto es obligatorio'),
+      price: Yup.number()
+        .typeError('Debe ser un número válido')
+        .positive('Debe ser un número positivo')
+        .required('El precio es obligatorio'),
+      category: Yup.string().required('La categoría es obligatoria'),
+      is_active: Yup.boolean(),
+      image: Yup.mixed().required('Se requiere una imagen')
+    }),
     onSubmit: (values) => {
       console.log('Formulario enviado:', values)
     }
   })
 
   const handleImageUploadClick = () => {
-    document.getElementById('imageInput').click()
+    document.getElementById(idImage.current).click()
   }
 
   const handleImageChange = (e) => {
@@ -44,12 +65,12 @@ export function AddEditProductForm () {
     <form onSubmit={formik.handleSubmit} className='space-y-6'>
       <div className='flex flex-col gap-10'>
         <div>
-          <label htmlFor='product' className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idProduct.current} className='block text-sm font-medium text-gray-700'>
             Producto
           </label>
           <input
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id='product'
+            id={idProduct.current}
             name='product'
             type='text'
             value={formik.values.product}
@@ -62,12 +83,12 @@ export function AddEditProductForm () {
         </div>
 
         <div>
-          <label htmlFor='price' className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idPrice.current} className='block text-sm font-medium text-gray-700'>
             Precio
           </label>
           <input
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id='price'
+            id={idPrice.current}
             name='price'
             type='number'
             value={formik.values.price}
@@ -80,12 +101,12 @@ export function AddEditProductForm () {
         </div>
 
         <div>
-          <label htmlFor='category' className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idCategory.current} className='block text-sm font-medium text-gray-700'>
             Categoría
           </label>
           <select
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id='category'
+            id={idCategory.current}
             name='category'
             value={formik.values.category}
             onChange={formik.handleChange}
@@ -102,25 +123,25 @@ export function AddEditProductForm () {
         <div className='flex items-center'>
           <input
             className='h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500'
-            id='is_active'
+            id={idActive.current}
             name='is_active'
             type='checkbox'
             checked={formik.values.is_active}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <label htmlFor='is_active' className='ml-2 block text-sm text-gray-700'>
+          <label htmlFor={idActive.current} className='ml-2 block text-sm text-gray-700'>
             Producto activo
           </label>
         </div>
 
         <div>
-          <label className='block text-sm font-medium text-gray-700' htmlFor='imageInput'>
+          <label className='block text-sm font-medium text-gray-700' htmlFor={idImage.current}>
             Imagen
           </label>
           <input
             className='hidden'
-            id='imageInput'
+            id={idImage.current}
             name='image'
             type='file'
             accept='.png, .jpg, .jpeg'
@@ -167,29 +188,4 @@ function formatDropdownOptions (categories) {
       {category.title}
     </option>
   ))
-}
-
-function newSchema () {
-  return (
-    Yup.object({
-      product: Yup.string().required('El nombre del producto es obligatorio'),
-      price: Yup.number()
-        .typeError('Debe ser un número válido')
-        .positive('Debe ser un número positivo')
-        .required('El precio es obligatorio'),
-      category: Yup.string().required('La categoría es obligatoria'),
-      is_active: Yup.boolean(),
-      image: Yup.mixed().required('Se requiere una imagen')
-    })
-  )
-}
-
-function initialValues () {
-  return ({
-    product: '',
-    price: '',
-    category: '',
-    is_active: false,
-    image: null
-  })
 }
