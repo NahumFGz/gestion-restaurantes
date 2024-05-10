@@ -1,11 +1,10 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from categories.api.serializers import CategorySerializer
 from products.models import Product
 
 
 class ProductSerializer(ModelSerializer):
-    categoty_data = CategorySerializer(source="category", read_only=True)
+    category_data = SerializerMethodField()
 
     class Meta:
         model = Product
@@ -16,5 +15,8 @@ class ProductSerializer(ModelSerializer):
             "price",
             "active",
             "category",
-            "categoty_data",
+            "category_data",
         )
+
+    def get_category_data(self, obj):
+        return {"id": obj.category.id, "title": obj.category.title}
