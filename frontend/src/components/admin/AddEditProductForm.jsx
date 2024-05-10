@@ -17,6 +17,10 @@ export function AddEditProductForm () {
     setCategoryOptions(formatDropdownOptions(categories))
   }, [categories])
 
+  const handleImageUploadClick = () => {
+    document.getElementById(imageId).click()
+  }
+
   return (
     <form
       className='space-y-6'
@@ -64,6 +68,7 @@ export function AddEditProductForm () {
           <label
             className='block text-sm font-medium text-gray-700'
             htmlFor={imageId}
+            onClick={(e) => e.preventDefault()}
           >
             Imagen
           </label>
@@ -77,6 +82,7 @@ export function AddEditProductForm () {
           <button
             type='button'
             className='mt-1 block w-full border border-dashed border-indigo-500 rounded-md bg-white py-2 px-4 text-sm font-medium text-indigo-700 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+            onClick={handleImageUploadClick}
           >
             Cargar imagen
           </button>
