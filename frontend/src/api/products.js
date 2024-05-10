@@ -66,3 +66,23 @@ export async function updateProductApi (categoryId, data, token) {
     throw new Error('Error al actualizar el producto')
   }
 }
+
+export async function deleteProductApi (categoryId, token) {
+  try {
+    const url = `${API_KEY}/api/products/${categoryId}/`
+    const params = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 204) {
+      throw new Error('Error al eliminar el producto')
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar el producto')
+  }
+}

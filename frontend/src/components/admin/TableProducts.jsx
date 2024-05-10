@@ -1,6 +1,6 @@
 import { CheckBadgeIcon, XMarkIcon } from '@heroicons/react/24/solid'
 
-export function TableProducts ({ products, updateProduct }) {
+export function TableProducts ({ products, updateProduct, deleteProduct }) {
   products.sort((a, b) => a.title.localeCompare(b.title))
 
   return (
@@ -46,7 +46,7 @@ export function TableProducts ({ products, updateProduct }) {
                 </button>
                 <button
                   className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Eliminar')}
+                  onClick={() => deleteProduct(product)}
                 >
                   Eliminar
                 </button>

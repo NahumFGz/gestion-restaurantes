@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { addProductApi, getProductsApi, updateProductApi } from '../api/products'
+import { addProductApi, getProductsApi, updateProductApi, deleteProductApi } from '../api/products'
 import { useAuth } from './useAuth'
 
 export function useProducts () {
@@ -42,5 +42,16 @@ export function useProducts () {
     }
   }
 
-  return { loading, error, products, getProducts, addProduct, updateProduct }
+  const deleteProduct = async (categoryId) => {
+    try {
+      setLoading(true)
+      await deleteProductApi(categoryId, auth.token)
+      setLoading(false)
+    } catch (error) {
+      setError(error)
+      throw new Error('Error al eliminar el producto')
+    }
+  }
+
+  return { loading, error, products, getProducts, addProduct, updateProduct, deleteProduct }
 }

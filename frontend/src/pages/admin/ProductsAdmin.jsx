@@ -3,7 +3,7 @@ import { AddEditProductForm, HeaderPage, Loading, ModalBasic, TableProducts } fr
 import { useProducts } from '../../hooks'
 
 export function ProducsAdmin () {
-  const { products, loading, getProducts } = useProducts()
+  const { products, loading, getProducts, deleteProduct } = useProducts()
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState(null)
   const [contentModal, setContentModal] = useState(null)
@@ -34,12 +34,21 @@ export function ProducsAdmin () {
     openCloseModal()
   }
 
+  const onDeleteProduct = async (product) => {
+    const result = window.confirm(`¿Estás seguro de eliminar el producto ${product.title}?`)
+    if (result) {
+      console.log('Eliminar producto:', product)
+      await deleteProduct(product.id)
+      onRefetch()
+    }
+  }
+
   return (
     <>
       <HeaderPage title='Productos' btnTitle='Nuevo producto' btnClick={addProduct} />
       {loading
         ? <Loading />
-        : <TableProducts products={products} updateProduct={updateProduct} />}
+        : <TableProducts products={products} updateProduct={updateProduct} deleteProduct={onDeleteProduct} />}
 
       <ModalBasic
         title={titleModal}
