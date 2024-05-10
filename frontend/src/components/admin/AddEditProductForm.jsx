@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCategory } from '../../hooks'
 
 export function AddEditProductForm () {
-  const idProduct = useRef('id-product')
-  const idPrice = useRef('id-price')
-  const idCategory = useRef('id-category')
-  const idActive = useRef('id-active')
-  const idImage = useRef('id-image')
+  const idProduct = useRef(useId())
+  const idPrice = useRef(useId())
+  const idCategory = useRef(useId())
+  const idActive = useRef(useId())
+  const idImage = useRef(useId())
 
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
