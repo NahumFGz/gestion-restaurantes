@@ -1,4 +1,5 @@
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
+import { useCategory } from '../../hooks'
 
 export function AddEditProductForm () {
   const productId = useId()
@@ -6,6 +7,15 @@ export function AddEditProductForm () {
   const categoryId = useId()
   const activeId = useId()
   const imageId = useId()
+
+  const { categories, getCategories } = useCategory()
+  const [categoryOptions, setCategoryOptions] = useState([])
+
+  useEffect(() => { getCategories() }, [])
+
+  useEffect(() => {
+    setCategoryOptions(formatDropdownOptions(categories))
+  }, [categories])
 
   return (
     <form
@@ -38,11 +48,7 @@ export function AddEditProductForm () {
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id={categoryId} name='categoria'
           >
-            <option value=''>Selecciona una categoría</option>
-            <option value='categoria1'>Categoria 1</option>
-            <option value='categoria2'>Categoria 2</option>
-            <option value='categoria3'>Categoria 3</option>
-            {/* Agrega más opciones aquí según sea necesario */}
+            {categoryOptions}
           </select>
         </div>
         <div className='flex items-center'>
@@ -88,4 +94,12 @@ export function AddEditProductForm () {
     </form>
 
   )
+}
+
+function formatDropdownOptions (categories) {
+  return categories.map((category) => (
+    <option key={category.id} value={category.title}>
+      {category.title}
+    </option>
+  ))
 }
