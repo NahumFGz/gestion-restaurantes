@@ -10,6 +10,7 @@ export function AddEditProductForm () {
 
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
+  const [imagePreview, setImagePreview] = useState(null)
 
   useEffect(() => { getCategories() }, [])
 
@@ -19,6 +20,23 @@ export function AddEditProductForm () {
 
   const handleImageUploadClick = () => {
     document.getElementById(imageId).click()
+  }
+
+  const handleImageChange = (e) => {
+    // Obtenemos el archivo seleccionado del evento
+    const file = e.target.files[0]
+    // Verificamos si se ha seleccionado un archivo
+    if (file) {
+      // Creamos una nueva instancia de FileReader
+      const reader = new window.FileReader()
+      // Definimos una función que se ejecutará cuando la lectura del archivo esté completa
+      reader.onloadend = () => {
+        // Establecemos el resultado de la lectura del archivo como la URL de la imagen
+        setImagePreview(reader.result)
+      }
+      // Leemos el archivo como una URL de datos (data URL)
+      reader.readAsDataURL(file)
+    }
   }
 
   return (
@@ -78,6 +96,7 @@ export function AddEditProductForm () {
             name='image'
             type='file'
             accept='.png, .jpg, .jpeg'
+            onChange={handleImageChange}
           />
           <button
             type='button'
@@ -87,14 +106,22 @@ export function AddEditProductForm () {
             Cargar imagen
           </button>
         </div>
-
+        {imagePreview && (
+          <div className='flex flex-row justify-center'>
+            <img
+              src={imagePreview}
+              alt='Previsualización de imagen'
+              className='mt-2 h-50 w-auto rounded-md'
+            />
+          </div>
+        )}
       </div>
       <div className='mt-4'>
         <button
           className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
           type='submit'
         >
-          'Actualizar'
+          Actualizar
         </button>
       </div>
     </form>
