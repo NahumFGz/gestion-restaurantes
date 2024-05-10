@@ -49,3 +49,28 @@ export async function addCategoryApi (data, token) {
     throw new Error('Error al crear la categoría')
   }
 }
+
+export async function updateCategoryApi (categoryId, data, token) {
+  try {
+    const formData = new FormData()
+    formData.append('title', data.category)
+
+    if (data.image && typeof data.image !== 'string') {
+      formData.append('image', data.image)
+    }
+    const url = `${API_KEY}/api/categories/${categoryId}/`
+    const params = {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    }
+
+    const response = await fetch(url, params)
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al actualizar la categoría')
+  }
+}

@@ -8,7 +8,7 @@ export function AddEditCategoryForm ({ onClose, onRefetch, category }) {
   const imageId = useId()
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState('' || category?.image)
-  const { addCategory } = useCategory()
+  const { addCategory, updateCategory } = useCategory()
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +23,8 @@ export function AddEditCategoryForm ({ onClose, onRefetch, category }) {
     onSubmit: async (formValues) => {
       try {
         if (category) {
-          console.log('Actualizando categoría', category)
+          await updateCategory(category.id, formValues)
+          console.log('Se ha actualizado la categoría:', category.id)
         } else {
           await addCategory(formValues)
           console.log('Se ha creado una nueva categoría')
