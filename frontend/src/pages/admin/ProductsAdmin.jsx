@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { HeaderPage, Loading } from '../../components'
+import { HeaderPage, Loading, TableProducts } from '../../components'
 import { useProducts } from '../../hooks'
 
 export function ProducsAdmin () {
@@ -11,7 +11,9 @@ export function ProducsAdmin () {
   return (
     <>
       <HeaderPage title='Productos' btnTitle='Nuevo producto' />
-      {loading ? <Loading /> : <p>Products table</p>}
+      {loading
+        ? <Loading />
+        : <TableProducts products={products} />}
     </>
   )
 }
