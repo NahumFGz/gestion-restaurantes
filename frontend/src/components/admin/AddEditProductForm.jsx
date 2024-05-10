@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCategory, useProducts } from '../../hooks'
 
-export function AddEditProductForm ({ onClose }) {
+export function AddEditProductForm ({ onClose, onRefetch }) {
   const idProduct = useId()
   const idPrice = useId()
   const idCategory = useId()
@@ -48,6 +48,7 @@ export function AddEditProductForm ({ onClose }) {
       console.log('Formulario enviado:', values)
       try {
         await addProduct(values)
+        onRefetch()
         onClose()
       } catch (error) {
         console.error('Error al agregar el producto:', error)
