@@ -10,9 +10,6 @@ export function AddEditProductForm ({ onClose, onRefetch }) {
   const idActive = useId()
   const idImage = useId()
 
-  console.log('idProduct: ', idProduct)
-  console.log('idImage: ', idImage)
-
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
   const [imagePreview, setImagePreview] = useState(null)

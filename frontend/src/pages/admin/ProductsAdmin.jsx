@@ -11,14 +11,16 @@ export function ProducsAdmin () {
 
   useEffect(() => { getProducts() }, [refetch])
 
-  const openCloseModal = () => {
-    if (showModal) {
+  const openCloseModal = () => { setShowModal((prev) => !prev) }
+  const onRefetch = () => setRefetch((prev) => !prev)
+
+  useEffect(() => {
+    if (!showModal) {
+      console.log('limpiando modal')
       setTitleModal(null)
       setContentModal(null)
     }
-    setShowModal((prev) => !prev)
-  }
-  const onRefetch = () => setRefetch((prev) => !prev)
+  }, [showModal])
 
   const addProduct = () => {
     setTitleModal('Nuevo producto')

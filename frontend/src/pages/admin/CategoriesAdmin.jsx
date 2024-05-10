@@ -13,13 +13,15 @@ export function CategoriesAdmin () {
 
   const onRefetch = () => setRefetch((prevState) => !prevState)
 
-  const openCloseModal = () => {
-    if (showModal) {
+  const openCloseModal = () => { setShowModal((prevState) => !prevState) }
+
+  useEffect(() => {
+    console.log('Limpiando modal categorías')
+    if (!showModal) {
       setTitleModal(null)
       setContentModal(null)
     }
-    setShowModal((prevState) => !prevState)
-  }
+  }, [showModal])
 
   const addCategory = () => {
     setTitleModal('Nueva categoría')
