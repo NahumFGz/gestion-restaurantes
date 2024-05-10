@@ -1,4 +1,4 @@
-export function TableCategory ({ categories, updateCategory }) {
+export function TableCategory ({ categories, updateCategory, deleteCategory }) {
   categories.sort((a, b) => a.title.localeCompare(b.title))
 
   return (
@@ -31,7 +31,11 @@ export function TableCategory ({ categories, updateCategory }) {
                 </button>
                 <button
                   className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Eliminar Categoria')}
+                  onClick={() => {
+                    if (window.confirm(`${category.title} será eliminado. ¿Estás seguro?`)) {
+                      deleteCategory(category.id)
+                    }
+                  }}
                 >
                   Eliminar
                 </button>

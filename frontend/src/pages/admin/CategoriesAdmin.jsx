@@ -6,7 +6,7 @@ export function CategoriesAdmin () {
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState(null)
   const [contentModal, setContentModal] = useState(null)
-  const { loading, categories, getCategories } = useCategory()
+  const { loading, categories, getCategories, deleteCategory } = useCategory()
   const [refetch, setRefetch] = useState(false)
 
   useEffect(() => { getCategories() }, [refetch])
@@ -33,13 +33,22 @@ export function CategoriesAdmin () {
     openCloseModal()
   }
 
+  const deleteCategoryById = async (categoryId) => {
+    try {
+      await deleteCategory(categoryId)
+      onRefetch()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <HeaderPage title='Categorías' btnTitle='Nueva categoría' btnClick={addCategory} />
       {
         loading
           ? (<Loading />)
-          : <TableCategory categories={categories} updateCategory={updateCategory} />
+          : <TableCategory categories={categories} updateCategory={updateCategory} deleteCategory={deleteCategoryById} />
       }
 
       <ModalBasic title={titleModal} show={showModal} onClose={openCloseModal}>

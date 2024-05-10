@@ -74,3 +74,23 @@ export async function updateCategoryApi (categoryId, data, token) {
     throw new Error('Error al actualizar la categoría')
   }
 }
+
+export async function deleteCategoryApi (categoryId, token) {
+  try {
+    const url = `${API_KEY}/api/categories/${categoryId}/`
+    const params = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const response = await fetch(url, params)
+
+    if (response.status !== 204) {
+      throw new Error('Error al eliminar la categoría')
+    }
+  } catch (error) {
+    throw new Error('Error al eliminar la categoría')
+  }
+}
