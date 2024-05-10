@@ -1,14 +1,17 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCategory } from '../../hooks'
 
 export function AddEditProductForm () {
-  const idProduct = useRef(useId())
-  const idPrice = useRef(useId())
-  const idCategory = useRef(useId())
-  const idActive = useRef(useId())
-  const idImage = useRef(useId())
+  const idProduct = useId()
+  const idPrice = useId()
+  const idCategory = useId()
+  const idActive = useId()
+  const idImage = useId()
+
+  console.log('idProduct: ', idProduct)
+  console.log('idImage: ', idImage)
 
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
@@ -46,7 +49,7 @@ export function AddEditProductForm () {
   })
 
   const handleImageUploadClick = () => {
-    document.getElementById(idImage.current).click()
+    document.getElementById(idImage).click()
   }
 
   const handleImageChange = (e) => {
@@ -65,12 +68,12 @@ export function AddEditProductForm () {
     <form onSubmit={formik.handleSubmit} className='space-y-6'>
       <div className='flex flex-col gap-10'>
         <div>
-          <label htmlFor={idProduct.current} className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idProduct} className='block text-sm font-medium text-gray-700'>
             Producto
           </label>
           <input
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id={idProduct.current}
+            id={idProduct}
             name='product'
             type='text'
             value={formik.values.product}
@@ -83,12 +86,12 @@ export function AddEditProductForm () {
         </div>
 
         <div>
-          <label htmlFor={idPrice.current} className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idPrice} className='block text-sm font-medium text-gray-700'>
             Precio
           </label>
           <input
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id={idPrice.current}
+            id={idPrice}
             name='price'
             type='number'
             value={formik.values.price}
@@ -101,12 +104,12 @@ export function AddEditProductForm () {
         </div>
 
         <div>
-          <label htmlFor={idCategory.current} className='block text-sm font-medium text-gray-700'>
+          <label htmlFor={idCategory} className='block text-sm font-medium text-gray-700'>
             Categoría
           </label>
           <select
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id={idCategory.current}
+            id={idCategory}
             name='category'
             value={formik.values.category}
             onChange={formik.handleChange}
@@ -123,25 +126,25 @@ export function AddEditProductForm () {
         <div className='flex items-center'>
           <input
             className='h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500'
-            id={idActive.current}
+            id={idActive}
             name='is_active'
             type='checkbox'
             checked={formik.values.is_active}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <label htmlFor={idActive.current} className='ml-2 block text-sm text-gray-700'>
+          <label htmlFor={idActive} className='ml-2 block text-sm text-gray-700'>
             Producto activo
           </label>
         </div>
 
         <div>
-          <label className='block text-sm font-medium text-gray-700' htmlFor={idImage.current}>
+          <label className='block text-sm font-medium text-gray-700' htmlFor={idImage}>
             Imagen
           </label>
           <input
             className='hidden'
-            id={idImage.current}
+            id={idImage}
             name='image'
             type='file'
             accept='.png, .jpg, .jpeg'
