@@ -1,4 +1,4 @@
-export function TableCategory ({ categories }) {
+export function TableCategory ({ categories, updateCategory }) {
   categories.sort((a, b) => a.title.localeCompare(b.title))
 
   return (
@@ -25,7 +25,7 @@ export function TableCategory ({ categories }) {
               <td className='flex text-sm justify-start gap-2 px-6 py-4'>
                 <button
                   className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Editar Categoria')}
+                  onClick={() => updateCategory(category)}
                 >
                   Editar
                 </button>

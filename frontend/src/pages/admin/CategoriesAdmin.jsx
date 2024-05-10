@@ -27,13 +27,19 @@ export function CategoriesAdmin () {
     openCloseModal()
   }
 
+  const updateCategory = (category) => {
+    setTitleModal('Editar categoría')
+    setContentModal(<AddEditCategoryForm category={category} onClose={openCloseModal} onRefetch={onRefetch} />)
+    openCloseModal()
+  }
+
   return (
     <>
       <HeaderPage title='Categorías' btnTitle='Nueva categoría' btnClick={addCategory} />
       {
         loading
           ? (<Loading />)
-          : <TableCategory categories={categories} />
+          : <TableCategory categories={categories} updateCategory={updateCategory} />
       }
 
       <ModalBasic title={titleModal} show={showModal} onClose={openCloseModal}>

@@ -3,27 +3,31 @@ import { useFormik } from 'formik'
 import { useCategory } from '../../hooks'
 import * as Yup from 'yup'
 
-export function AddEditCategoryForm ({ onClose, onRefetch }) {
+export function AddEditCategoryForm ({ onClose, onRefetch, category }) {
   const categoryId = useId()
   const imageId = useId()
   const [imageFile, setImageFile] = useState(null)
-  const [imagePreview, setImagePreview] = useState('')
+  const [imagePreview, setImagePreview] = useState('' || category?.image)
   const { addCategory } = useCategory()
 
   const formik = useFormik({
     initialValues: {
-      category: '',
+      category: '' || category?.title,
       image: ''
     },
     validationSchema: Yup.object({
       category: Yup.string().required('El nombre de la categoría es requerido'),
-      image: Yup.mixed().required('La imagen es requerida')
+      image: category ? Yup.string().notRequired() : Yup.mixed().required('La imagen es requerida')
     }),
     validateOnChange: false,
     onSubmit: async (formValues) => {
       try {
-        await addCategory(formValues)
-        console.log('Se ha creado una nueva categoría')
+        if (category) {
+          console.log('Actualizando categoría', category)
+        } else {
+          await addCategory(formValues)
+          console.log('Se ha creado una nueva categoría')
+        }
         onRefetch()
         onClose()
       } catch (error) {
@@ -72,7 +76,7 @@ export function AddEditCategoryForm ({ onClose, onRefetch }) {
             className='block text-sm font-medium text-gray-700'
             htmlFor={imageId}
           >
-            Subir imagen
+            {category ? 'Cambiar imagen' : 'Imagen'}
           </label>
           <input
             className='hidden'
@@ -87,7 +91,7 @@ export function AddEditCategoryForm ({ onClose, onRefetch }) {
             className='mt-1 block w-full border border-dashed border-indigo-500 rounded-md bg-white py-2 px-4 text-sm font-medium text-indigo-700 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
             onClick={handleUploadButtonClick}
           >
-            {imageFile ? `Imagen: ${imageFile.name}` : 'Seleccionar imagen'}
+            {imageFile ? 'cambiar imagen' : 'Seleccionar imagen'}
           </button>
           {imagePreview && (
             <div className='mt-4 flex flex-row justify-center'>
@@ -105,7 +109,7 @@ export function AddEditCategoryForm ({ onClose, onRefetch }) {
           className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
           type='submit'
         >
-          Crear
+          {category ? 'Editar categoría' : 'Agregar categoría'}
         </button>
       </div>
     </form>
