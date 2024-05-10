@@ -1,1 +1,1 @@
-export * from './ModalBasic'
+export * from './ModalBasic.jsx'

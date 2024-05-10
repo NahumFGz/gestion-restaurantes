@@ -1,9 +1,9 @@
 import { useEffect, useId, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useCategory } from '../../hooks'
+import { useCategory, useProducts } from '../../hooks'
 
-export function AddEditProductForm () {
+export function AddEditProductForm ({ onClose }) {
   const idProduct = useId()
   const idPrice = useId()
   const idCategory = useId()
@@ -16,6 +16,7 @@ export function AddEditProductForm () {
   const { categories, getCategories } = useCategory()
   const [categoryOptions, setCategoryOptions] = useState([])
   const [imagePreview, setImagePreview] = useState(null)
+  const { addProduct } = useProducts()
 
   useEffect(() => {
     getCategories()
@@ -43,8 +44,14 @@ export function AddEditProductForm () {
       is_active: Yup.boolean(),
       image: Yup.mixed().required('Se requiere una imagen')
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log('Formulario enviado:', values)
+      try {
+        await addProduct(values)
+        onClose()
+      } catch (error) {
+        console.error('Error al agregar el producto:', error)
+      }
     }
   })
 
@@ -187,7 +194,7 @@ export function AddEditProductForm () {
 
 function formatDropdownOptions (categories) {
   return categories.map((category) => (
-    <option key={category.id} value={category.title}>
+    <option key={category.id} value={category.id}>
       {category.title}
     </option>
   ))
