@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { HeaderPage, Loading } from '../../components'
+import { HeaderPage, Loading, TableTables } from '../../components'
 import { useTables } from '../../hooks'
 
 export default function TablesAdmin () {
@@ -12,9 +12,7 @@ export default function TablesAdmin () {
       {
         loading
           ? <Loading />
-          : (
-            <p>Listado de mesas</p>
-            )
+          : <TableTables tables={tables} />
       }
     </>
   )
