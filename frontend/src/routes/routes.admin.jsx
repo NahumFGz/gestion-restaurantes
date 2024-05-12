@@ -1,5 +1,5 @@
 import { AdminLayout } from '../layouts'
-import { CategoriesAdmin, TablesAdmin, OrdersAdmin, UsersAdmin, ProducsAdmin, TableDetails } from '../pages/admin'
+import { CategoriesAdmin, TablesAdmin, OrdersAdmin, UsersAdmin, ProducsAdmin, TableDetailsAdmin } from '../pages/admin'
 
 export const ADMIN_LOGIN_PATH = '/admin'
 
@@ -32,7 +32,7 @@ export const routesAdmin = [
   {
     path: ADMIN_LOGIN_PATH + '/table/:id',
     layout: AdminLayout,
-    component: TableDetails
+    component: TableDetailsAdmin
   }
 
 ]
