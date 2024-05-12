@@ -7,14 +7,23 @@ export default function TablesAdmin () {
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState('')
   const [modalContent, setModalContent] = useState(null)
+  const [refetch, setRefetch] = useState(false)
 
-  useEffect(() => { getTables() }, [])
+  useEffect(() => { getTables() }, [refetch])
 
   const openCloseModal = () => setShowModal((prevState) => !prevState)
+  const onRefetch = () => setRefetch((prevState) => !prevState)
+
+  useEffect(() => {
+    if (!showModal) {
+      setTitleModal('')
+      setModalContent(null)
+    }
+  }, [showModal])
 
   const addTable = () => {
     setTitleModal('Crear nueva mesa')
-    setModalContent(<AddEditTablesForm />)
+    setModalContent(<AddEditTablesForm onClose={openCloseModal} onRefetch={onRefetch} />)
     openCloseModal()
   }
 

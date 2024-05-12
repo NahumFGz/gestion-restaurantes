@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
-import { getTablesApi } from '../api/tables'
+import { addTableApi, getTablesApi } from '../api/tables'
 
 export function useTables () {
   const [loading, setLoading] = useState(false)
@@ -21,5 +21,17 @@ export function useTables () {
     }
   }
 
-  return { loading, error, tables, getTables }
+  const addTable = async (formData) => {
+    try {
+      setLoading(true)
+      await addTableApi(auth.token, formData)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+      throw new Error('Error al agregar la mesa')
+    }
+  }
+
+  return { loading, error, tables, getTables, addTable }
 }

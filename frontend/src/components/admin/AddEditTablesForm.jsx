@@ -1,9 +1,11 @@
 import { useFormik } from 'formik'
 import { useId } from 'react'
 import * as Yup from 'yup'
+import { useTables } from '../../hooks'
 
-export function AddEditTablesForm ({ onClose }) {
+export function AddEditTablesForm ({ onClose, onRefetch }) {
   const idNumber = useId()
+  const { addTable } = useTables()
 
   const formik = useFormik({
     initialValues: {
@@ -14,6 +16,9 @@ export function AddEditTablesForm ({ onClose }) {
     }),
     onSubmit: async (formValues) => {
       console.log('Formulario enviado:', formValues)
+      await addTable(formValues)
+      onRefetch()
+      onClose()
     }
   })
 
