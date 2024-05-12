@@ -1,5 +1,5 @@
 export * from './LoginAdmin.jsx'
-export * from './HomeAdmin.jsx'
+export * from './OrdersAdmin.jsx'
 export * from './UsersAdmin.jsx'
 export * from './CategoriesAdmin.jsx'
 export * from './ProductsAdmin.jsx'
