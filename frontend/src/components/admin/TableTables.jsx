@@ -1,4 +1,4 @@
-export function TableTables ({ tables }) {
+export function TableTables ({ tables, updateTable }) {
   return (
     <div className='overflow-auto shadow-lg rounded-lg'>
       <table className='w-full table-auto bg-white rounded-lg border border-gray-200'>
@@ -15,7 +15,7 @@ export function TableTables ({ tables }) {
               <td className='flex text-sm justify-start gap-2 px-6 py-4'>
                 <button
                   className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Edit table', table)}
+                  onClick={() => updateTable(table)}
                 >
                   Editar
                 </button>

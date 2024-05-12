@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
-import { addTableApi, getTablesApi } from '../api/tables'
+import { addTableApi, getTablesApi, updateTableApi } from '../api/tables'
 
 export function useTables () {
   const [loading, setLoading] = useState(false)
@@ -33,5 +33,17 @@ export function useTables () {
     }
   }
 
-  return { loading, error, tables, getTables, addTable }
+  const updateTable = async (formData, id) => {
+    try {
+      setLoading(true)
+      await updateTableApi(auth.token, formData, id)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+      throw new Error('Error al actualizar la mesa')
+    }
+  }
+
+  return { loading, error, tables, getTables, addTable, updateTable }
 }

@@ -27,13 +27,19 @@ export default function TablesAdmin () {
     openCloseModal()
   }
 
+  const updateTable = (table) => {
+    setTitleModal('Editar mesa')
+    setModalContent(<AddEditTablesForm table={table} onClose={openCloseModal} onRefetch={onRefetch} />)
+    openCloseModal()
+  }
+
   return (
     <>
       <HeaderPage title='Mesas' btnTitle='Crear nueva mesa' btnClick={addTable} />
       {
         loading
           ? <Loading />
-          : <TableTables tables={tables} />
+          : <TableTables tables={tables} updateTable={updateTable} />
       }
 
       <ModalBasic

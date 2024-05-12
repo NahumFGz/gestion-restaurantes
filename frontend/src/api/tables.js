@@ -35,3 +35,22 @@ export async function addTableApi (token, formData) {
     throw new Error('Error al agregar la mesa')
   }
 }
+
+export async function updateTableApi (token, formData, id) {
+  try {
+    const url = `${API_KEY}/api/tables/${id}/`
+    const params = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(formData)
+    }
+    const response = await fetch(url, params)
+    const result = await response.json()
+    return result
+  } catch {
+    throw new Error('Error al actualizar la mesa')
+  }
+}
