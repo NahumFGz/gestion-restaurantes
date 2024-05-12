@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import icon from '../../assets/table.svg'
 import { getOrdersByTableApi } from '../../api/orders'
 import { ORDER_STATUS } from '../../utils/constants'
+import { Link } from 'react-router-dom'
 
 export function Table ({ table }) {
   const [orders, setOrders] = useState([])
@@ -37,23 +38,25 @@ export function Table ({ table }) {
   }
 
   return (
-    <div className='flex justify-center items-center hover:scale-95 active:scale-105'>
-      {Object.keys(orders).length > 0 && (
-        <div className='fixed bg-red-500 text-white text-xs font-bold rounded-full px-4'>
-          {Object.keys(orders).length}
-        </div>
-      )}
+    <Link to={`/admin/table/${table.id}`}>
+      <div className='flex justify-center items-center hover:scale-95 active:scale-105'>
+        {Object.keys(orders).length > 0 && (
+          <div className='fixed bg-red-500 text-white text-xs font-bold rounded-full px-4'>
+            {Object.keys(orders).length}
+          </div>
+        )}
 
-      <div>
-        <img
-          className={`w-56 h-56 ${getBackgroundClass()}`}
-          src={icon} alt='My Icon'
-        />
-        <h3
-          className='text-center text-sm'
-        >{`Mesa ${table.number}`}
-        </h3>
+        <div>
+          <img
+            className={`w-56 h-56 ${getBackgroundClass()}`}
+            src={icon} alt='My Icon'
+          />
+          <h3
+            className='text-center text-sm'
+          >{`Mesa ${table.number}`}
+          </h3>
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
