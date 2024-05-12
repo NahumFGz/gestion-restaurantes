@@ -4,7 +4,7 @@ import { getOrdersByTableApi } from '../../api/orders'
 import { ORDER_STATUS } from '../../utils/constants'
 import { Link } from 'react-router-dom'
 
-export function Table ({ table }) {
+export function Table ({ table, reload }) {
   const [orders, setOrders] = useState([])
   const [tableBusy, setTableBusy] = useState(false)
 
@@ -15,7 +15,7 @@ export function Table ({ table }) {
       setOrders(response)
     }
     fetchOrdersPending()
-  }, [table.id])
+  }, [table.id, reload])
 
   useEffect(() => {
     const fetchOrdersDelivered = async () => {
@@ -25,7 +25,7 @@ export function Table ({ table }) {
       }
     }
     fetchOrdersDelivered()
-  }, [table.id])
+  }, [table.id, reload])
 
   const getBackgroundClass = () => {
     if (tableBusy) {

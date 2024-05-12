@@ -1,6 +1,11 @@
+import { useState } from 'react'
 import { Table } from './Table'
 
 export function TableOrders ({ tables }) {
+  const [reload, setReload] = useState(false)
+
+  const onReload = () => { setReload((prev) => !prev) }
+
   return (
     <>
       <div className='fixed right-0 top-[80px] mr-12'>
@@ -18,6 +23,7 @@ export function TableOrders ({ tables }) {
 
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            onClick={onReload}
           >
             Actualizar
           </button>
@@ -27,7 +33,7 @@ export function TableOrders ({ tables }) {
       <div className='flex flex-wrap justify-center items-center gap-5'>
         {
         tables.map(table => (
-          <Table key={table.id} table={table} />
+          <Table key={table.id} table={table} reload={reload} />
         ))
       }
       </div>
