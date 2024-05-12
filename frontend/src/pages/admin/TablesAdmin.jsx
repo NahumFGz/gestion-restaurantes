@@ -3,7 +3,7 @@ import { AddEditTablesForm, HeaderPage, Loading, ModalBasic, TableTables } from 
 import { useTables } from '../../hooks'
 
 export default function TablesAdmin () {
-  const { loading, tables, getTables } = useTables()
+  const { loading, tables, getTables, deleteTable } = useTables()
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState('')
   const [modalContent, setModalContent] = useState(null)
@@ -33,13 +33,22 @@ export default function TablesAdmin () {
     openCloseModal()
   }
 
+  const onDeleteTable = async (table) => {
+    const result = window.confirm(`¿Estás seguro de eliminar la mesa ${table.id}?`)
+    if (result) {
+      console.log('Eliminar mesa:', table)
+      await deleteTable(table.id)
+      onRefetch()
+    }
+  }
+
   return (
     <>
       <HeaderPage title='Mesas' btnTitle='Crear nueva mesa' btnClick={addTable} />
       {
         loading
           ? <Loading />
-          : <TableTables tables={tables} updateTable={updateTable} />
+          : <TableTables tables={tables} updateTable={updateTable} deleteTable={onDeleteTable} />
       }
 
       <ModalBasic

@@ -1,4 +1,4 @@
-export function TableTables ({ tables, updateTable }) {
+export function TableTables ({ tables, updateTable, deleteTable }) {
   return (
     <div className='overflow-auto shadow-lg rounded-lg'>
       <table className='w-full table-auto bg-white rounded-lg border border-gray-200'>
@@ -21,7 +21,7 @@ export function TableTables ({ tables, updateTable }) {
                 </button>
                 <button
                   className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => console.log('Delete table', table)}
+                  onClick={() => deleteTable(table)}
                 >
                   Eliminar
                 </button>

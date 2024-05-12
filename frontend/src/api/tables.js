@@ -54,3 +54,22 @@ export async function updateTableApi (token, formData, id) {
     throw new Error('Error al actualizar la mesa')
   }
 }
+
+export async function deleteTableApi (token, id) {
+  try {
+    const url = `${API_KEY}/api/tables/${id}/`
+    const params = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const response = await fetch(url, params)
+
+    if (response.status !== 204) {
+      throw new Error('Error al eliminar la mesa')
+    }
+  } catch {
+    throw new Error('Error al eliminar la mesa')
+  }
+}

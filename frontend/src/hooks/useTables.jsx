@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from './useAuth'
-import { addTableApi, getTablesApi, updateTableApi } from '../api/tables'
+import { addTableApi, deleteTableApi, getTablesApi, updateTableApi } from '../api/tables'
 
 export function useTables () {
   const [loading, setLoading] = useState(false)
@@ -45,5 +45,17 @@ export function useTables () {
     }
   }
 
-  return { loading, error, tables, getTables, addTable, updateTable }
+  const deleteTable = async (id) => {
+    try {
+      setLoading(true)
+      await deleteTableApi(auth.token, id)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error)
+      throw new Error('Error al eliminar la mesa')
+    }
+  }
+
+  return { loading, error, tables, getTables, addTable, updateTable, deleteTable }
 }
