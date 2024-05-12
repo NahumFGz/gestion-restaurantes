@@ -1,6 +1,5 @@
 import { AdminLayout } from '../layouts'
-import { CategoriesAdmin, OrdersAdmin, UsersAdmin, ProducsAdmin } from '../pages/admin'
-import TablesAdmin from '../pages/admin/TablesAdmin'
+import { CategoriesAdmin, TablesAdmin, OrdersAdmin, UsersAdmin, ProducsAdmin } from '../pages/admin'
 
 export const ADMIN_LOGIN_PATH = '/admin'
 

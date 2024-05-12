@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { AddEditTablesForm, HeaderPage, Loading, ModalBasic, TableTables } from '../../components'
 import { useTables } from '../../hooks'
 
-export default function TablesAdmin () {
+export function TablesAdmin () {
   const { loading, tables, getTables, deleteTable } = useTables()
   const [showModal, setShowModal] = useState(false)
   const [titleModal, setTitleModal] = useState('')
