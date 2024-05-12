@@ -1,10 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table } from './Table'
 
 export function TableOrders ({ tables }) {
   const [reload, setReload] = useState(false)
+  const [autoReload, setAutoReload] = useState(false)
 
   const onReload = () => { setReload((prev) => !prev) }
+  const toggleAutoReload = () => { setAutoReload((prev) => !prev) }
+
+  useEffect(() => {
+    let interval
+    if (autoReload) {
+      // Definimos un intervalo para recargar la página cada 5 segundos
+      interval = setInterval(() => { setReload((prev) => !prev) }, 5000)
+    } else if (interval) {
+      clearInterval(interval)
+    }
+    // Limpieza para evitar intervalos múltiples
+    return () => clearInterval(interval)
+  }, [autoReload])
 
   return (
     <>
@@ -17,7 +31,8 @@ export function TableOrders ({ tables }) {
             <input
               type='checkbox'
               className='ml-1 mr-2'
-              onChange={() => console.log('Check')}
+              onChange={toggleAutoReload}
+              checked={autoReload}
             />
           </div>
 
