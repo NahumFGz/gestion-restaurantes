@@ -3,7 +3,7 @@ import { useOrder } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Loading } from '../../components/admin/Loading'
 import { HeaderPage } from '../../components/admin/HeaderPage'
-import { ListOrders } from '../../components'
+import { ListOrders } from '../../components/admin'
 
 export function TableDetailsAdmin () {
   const { id } = useParams()
@@ -11,7 +11,7 @@ export function TableDetailsAdmin () {
   const { loading, orders, getOrdersByTable } = useOrder()
 
   useEffect(() => {
-    getOrdersByTable(id)
+    getOrdersByTable(id, '', 'ordering=-status,created_at')
   }, [])
   console.log(orders)
 

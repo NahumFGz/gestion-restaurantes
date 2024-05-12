@@ -1,6 +1,13 @@
 export function OrderItem ({ order }) {
+  // Determinar el color de fondo basado en el estado
+  const bgColor = order.status === 'PENDING'
+    ? 'bg-yellow-200'
+    : order.status === 'DELIVERED'
+      ? 'bg-green-300'
+      : 'bg-white'
+
   return (
-    <div className='relative flex flex-col border p-2'>
+    <div className={`relative flex flex-col border p-2 ${bgColor}`}>
       <p
         className='absolute -top-3 right-2 border bg-white px-2 py-1 rounded-md text-sm font-semibold text-gray-800'
       >
@@ -14,7 +21,6 @@ export function OrderItem ({ order }) {
         />
         <p>{order.product_data.title}</p>
         <p>{order.status}</p>
-
       </div>
     </div>
   )
