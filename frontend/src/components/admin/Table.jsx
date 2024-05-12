@@ -25,11 +25,11 @@ export function Table ({ table }) {
 
       <div>
         <img
-          className='w-56 h-56'
+          className={`w-56 h-56 ${Object.keys(orders).length > 0 ? 'bg-blue-200' : ''}`}
           src={icon} alt='My Icon'
         />
         <h3
-          className='text-center text-sm'
+          className='text-center text-sm '
         >{`Mesa ${table.number}`}
         </h3>
       </div>
