@@ -1,3 +1,5 @@
+import { formatDateToUTCMinus5 } from '../../utils/dafeFormater'
+
 export function OrderItem ({ order }) {
   // Determinar el color de fondo basado en el estado
   const bgColor = order.status === 'PENDING'
@@ -11,7 +13,13 @@ export function OrderItem ({ order }) {
       <p
         className='absolute -top-3 right-2 border bg-white px-2 py-1 rounded-md text-sm font-semibold text-gray-800'
       >
-        {order.created_at}
+        {
+          `
+         ${formatDateToUTCMinus5(order.created_at).formattedHourMinute}
+         -
+         ${formatDateToUTCMinus5(order.created_at).formattedTimeDifference}
+          `
+        }
       </p>
 
       <div className='flex flex-row gap-5 items-center'>

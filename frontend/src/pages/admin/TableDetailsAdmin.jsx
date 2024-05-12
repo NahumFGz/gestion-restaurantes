@@ -11,7 +11,7 @@ export function TableDetailsAdmin () {
   const { loading, orders, getOrdersByTable } = useOrder()
 
   useEffect(() => {
-    getOrdersByTable(id, '', 'ordering=-status,created_at')
+    getOrdersByTable(id, '', '-status,created_at')
   }, [])
   console.log(orders)
 
