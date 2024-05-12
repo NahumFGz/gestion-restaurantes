@@ -2,7 +2,7 @@ import icon from '../../assets/table.svg'
 
 export function Table ({ table }) {
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex justify-center items-center hover:scale-95 active:scale-105'>
       <div>
         <img
           className='w-56 h-56'
