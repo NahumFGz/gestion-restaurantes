@@ -15,13 +15,24 @@ export function TableDetailsAdmin () {
 
   const onRefetch = () => setRefetch((prev) => !prev)
   const openCloseModal = () => setShowModal((prev) => !prev)
+  const onCreatePayment = () => {
+    const result = window.confirm('¿Estás seguro de generar la cuenta?')
+    if (result) {
+      console.log('Generar cuenta')
+    }
+  }
 
   useEffect(() => { getOrdersByTable(id, '', '-status,created_at') }, [refetch])
   useEffect(() => { getTable(id) }, [id])
 
   return (
     <>
-      <HeaderPage title={`Mesa ${table?.number || ''}`} btnTitle='Añadir pedido' btnClick={openCloseModal} />
+      <HeaderPage
+        title={`Mesa ${table?.number || ''}`}
+        btnTitle='Añadir pedido' btnClick={openCloseModal}
+        btnTitleTwo='Generar cuenta'
+        btnClickTwo={() => onCreatePayment()}
+      />
 
       {
         loading
