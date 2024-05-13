@@ -1,36 +1,63 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import Select from 'react-select'
 import { useProducts } from '../../hooks'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 export function AddOrderForm ({ idTable, openCloseModal }) {
-  const [selectedOption, setSelectedOption] = useState('')
   const { products, getProducts } = useProducts()
 
-  useEffect(() => { getProducts() }, [])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value)
-  }
+  // Validaciones de Formik y Yup
+  const formik = useFormik({
+    initialValues: {
+      selectedProducts: []
+    },
+    validationSchema: Yup.object({
+      selectedProducts: Yup.array()
+        .min(1, 'Debe seleccionar al menos un producto')
+        .required('La selección de productos es obligatoria')
+    }),
+    onSubmit: async (formValues, { resetForm }) => {
+      console.log('Enviando pedidos', [...formValues.selectedProducts])
+      // Aquí puedes manejar la lógica de envío de la orden
+      // openCloseModal()
+      resetForm()
+    }
+  })
+
+  // Crear opciones para react-select
+  const options = products.map(product => ({
+    value: product.id,
+    label: product.title
+  }))
 
   return (
-    <form className='space-y-6'>
+    <form onSubmit={formik.handleSubmit} className='space-y-6'>
       <div className='flex flex-col gap-10'>
-        <div className='relative inline-block w-full'>
+        <div className='relative w-full'>
           <label htmlFor='order-dropdown' className='block text-sm font-medium text-gray-700'>
-            Seleccione una opción
+            Seleccione productos
           </label>
-          <select
+          <Select
             id='order-dropdown'
-            value={selectedOption}
-            onChange={handleSelectChange}
-            className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
-          >
-            <option value='' disabled>Seleccionar...</option>
-            {
-              products.map((product) => (
-                <option key={product.id} value={product.id}>{product.title}</option>
-              ))
-            }
-          </select>
+            name='selectedProducts'
+            value={formik.values.selectedProducts}
+            onChange={value => formik.setFieldValue('selectedProducts', value)}
+            options={options}
+            className='mt-1 text-base sm:text-sm'
+            classNamePrefix='react-select'
+            placeholder='Seleccionar...'
+            isMulti
+          />
+          {formik.touched.selectedProducts && formik.errors.selectedProducts
+            ? (
+              <div className='text-red-500 text-sm'>{formik.errors.selectedProducts}</div>
+              )
+            : null}
         </div>
       </div>
       <div className='mt-4'>
