@@ -41,3 +41,24 @@ export async function getPaymentByTableApi (idTable, token) {
     throw new Error('Error al obtener los pagos')
   }
 }
+
+export async function closePaymentApi (idPayment) {
+  try {
+    const url = `${API_KEY}/api/payments/${idPayment}/`
+    const paramas = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status_payment: PAYMENT_STATUS.PAID
+      })
+    }
+
+    const response = await fetch(url, paramas)
+    const result = await response.json()
+    return result
+  } catch (error) {
+    throw new Error('Error al cerrar el pago')
+  }
+}

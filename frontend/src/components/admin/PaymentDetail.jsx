@@ -1,9 +1,21 @@
 import React, { useState } from 'react'
+import { usePayment } from '../../hooks/usePayment'
 
 export function PaymentDetail ({ payment, orders, openCloseModal, onReloadOrders }) {
   const [paymentMethod, setPaymentMethod] = useState('Tarjeta de crédito') // Estado inicial
+  const { closePayment } = usePayment()
 
   console.log('payment', payment)
+
+  const onClosePayment = async () => {
+    const confirm = window.confirm('¿Estás seguro de cerrar la cuenta?')
+    if (confirm) {
+      // Lógica para cerrar el pago
+      await closePayment(payment.id)
+      openCloseModal()
+    }
+  }
+
   return (
     <div className='bg-white p-6 rounded-lg shadow-lg'>
       <div>
@@ -65,6 +77,7 @@ export function PaymentDetail ({ payment, orders, openCloseModal, onReloadOrders
 
       <button
         className='mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        onClick={onClosePayment}
       >
         Pagar
       </button>

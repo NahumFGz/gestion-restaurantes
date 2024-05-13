@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createPaymentApi, getPaymentByTableApi } from '../api/payments'
+import { createPaymentApi, getPaymentByTableApi, closePaymentApi } from '../api/payments'
 import { useAuth } from './useAuth'
 
 export function usePayment () {
@@ -37,5 +37,17 @@ export function usePayment () {
     }
   }
 
-  return { loading, error, payment, createPayment, getPaymentByTable }
+  const closePayment = async (idPayment) => {
+    try {
+      setLoading(true)
+      setError(null)
+      await closePaymentApi(idPayment)
+      setLoading(false)
+    } catch (error) {
+      setError(error.message || 'Error al cerrar el pago')
+      setLoading(false)
+    }
+  }
+
+  return { loading, error, payment, createPayment, getPaymentByTable, closePayment }
 }
