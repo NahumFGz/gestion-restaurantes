@@ -3,7 +3,7 @@ import { useOrder, useTables } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Loading } from '../../components/admin/Loading'
 import { HeaderPage } from '../../components/admin/HeaderPage'
-import { AddOrderForm, ListOrders } from '../../components/admin'
+import { AddOrderForm, ListOrders, PaymentDetail } from '../../components/admin'
 import { ModalBasic } from '../../components'
 import { usePayment } from '../../hooks/usePayment'
 
@@ -89,10 +89,17 @@ export function TableDetailsAdmin () {
       >
         {
           paymentData
-            ? (
-              <p>Detalles de cuenta</p>
-              )
-            : <AddOrderForm idTable={id} openCloseModal={openCloseModal} onRefetch={onRefetch} />
+            ? <PaymentDetail
+                payment={paymentData}
+                orders={orders}
+                openCloseModal={openCloseModal}
+                onReloadOrders={onRefetch}
+              />
+            : <AddOrderForm
+                idTable={id}
+                openCloseModal={openCloseModal}
+                onRefetch={onRefetch}
+              />
         }
       </ModalBasic>
 
