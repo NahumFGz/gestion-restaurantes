@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useOrder } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Loading } from '../../components/admin/Loading'
@@ -7,12 +7,14 @@ import { ListOrders } from '../../components/admin'
 
 export function TableDetailsAdmin () {
   const { id } = useParams()
-  console.log(id)
   const { loading, orders, getOrdersByTable } = useOrder()
+  const [refetch, setRefetch] = useState(false)
+
+  const onRefetch = () => setRefetch((prev) => !prev)
 
   useEffect(() => {
     getOrdersByTable(id, '', '-status,created_at')
-  }, [])
+  }, [refetch])
   console.log(orders)
 
   return (
@@ -22,7 +24,7 @@ export function TableDetailsAdmin () {
       {
         loading
           ? <Loading />
-          : <ListOrders orders={orders} />
+          : <ListOrders orders={orders} onRefetch={onRefetch} />
       }
     </>
   )
