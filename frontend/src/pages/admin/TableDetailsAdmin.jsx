@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOrder } from '../../hooks'
+import { useOrder, useTables } from '../../hooks'
 import { useParams } from 'react-router-dom'
 import { Loading } from '../../components/admin/Loading'
 import { HeaderPage } from '../../components/admin/HeaderPage'
@@ -9,6 +9,7 @@ export function TableDetailsAdmin () {
   const { id } = useParams()
   const { loading, orders, getOrdersByTable } = useOrder()
   const [refetch, setRefetch] = useState(false)
+  const { getTable, table } = useTables()
 
   const onRefetch = () => setRefetch((prev) => !prev)
 
@@ -17,9 +18,11 @@ export function TableDetailsAdmin () {
   }, [refetch])
   console.log(orders)
 
+  useEffect(() => { getTable(id) }, [id])
+  console.log('---->', table)
   return (
     <>
-      <HeaderPage title='Mesa ***' />
+      <HeaderPage title={`Mesa ${table?.number || ''}`} />
 
       {
         loading

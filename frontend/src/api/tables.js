@@ -73,3 +73,20 @@ export async function deleteTableApi (token, id) {
     throw new Error('Error al eliminar la mesa')
   }
 }
+
+export async function getTableApi (token, id) {
+  try {
+    const url = `${API_KEY}/api/tables/${id}/`
+    const params = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const response = await fetch(url, params)
+    const result = await response.json()
+    return result
+  } catch {
+    throw new Error('Error al obtener la mesa')
+  }
+}
