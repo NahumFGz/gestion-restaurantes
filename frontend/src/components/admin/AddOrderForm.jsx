@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import Select from 'react-select'
-import { useProducts } from '../../hooks'
+import { useOrder, useProducts } from '../../hooks'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-export function AddOrderForm ({ idTable, openCloseModal }) {
+export function AddOrderForm ({ idTable, openCloseModal, onRefetch }) {
   const { products, getProducts } = useProducts()
+  const { addOrderToTable } = useOrder()
 
   useEffect(() => {
     getProducts()
@@ -23,8 +24,15 @@ export function AddOrderForm ({ idTable, openCloseModal }) {
     }),
     onSubmit: async (formValues, { resetForm }) => {
       console.log('Enviando pedidos', [...formValues.selectedProducts])
-      // Aquí puedes manejar la lógica de envío de la orden
-      // openCloseModal()
+      for (const product of formValues.selectedProducts) {
+        try {
+          await addOrderToTable(idTable, product.value)
+        } catch (error) {
+          console.error('Error al añadir la orden:', error)
+        }
+      }
+      onRefetch()
+      openCloseModal()
       resetForm()
     }
   })

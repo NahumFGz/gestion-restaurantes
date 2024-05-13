@@ -39,3 +39,26 @@ export async function checkDeliveredOrderApi (idOrder, token) {
     throw new Error('Error al entregar la orden')
   }
 }
+
+export async function addOrderToTableApi (idTable, idProduct, token) {
+  try {
+    const url = `${API_KEY}/api/orders/`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`
+      },
+      body: JSON.stringify({
+        status: ORDER_STATUS.PENDING,
+        table: idTable,
+        product: idProduct
+      })
+    })
+
+    response.json()
+  } catch (error) {
+    throw new Error('Error al añadir la orden')
+  }
+}
