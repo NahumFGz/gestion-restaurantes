@@ -8,7 +8,7 @@ import { ModalBasic } from '../../components'
 import { usePayment } from '../../hooks/usePayment'
 
 export function TableDetailsAdmin () {
-  const { loading, orders, getOrdersByTable } = useOrder()
+  const { loading, orders, getOrdersByTable, addPaymentToOrder } = useOrder()
   const { getTable, table } = useTables()
   const { id } = useParams()
   const [refetch, setRefetch] = useState(false)
@@ -32,13 +32,19 @@ export function TableDetailsAdmin () {
     }
 
     try {
-      const response = await createPayment(paymentData)
-      console.log('Pago creado con éxito:', response)
+      const paymentResponse = await createPayment(paymentData)
+      console.log('Pago creado con éxito:', paymentResponse)
       // Aquí puedes agregar lógica adicional, como redirigir al usuario o actualizar la vista
+
+      for await (const order of orders) {
+        await addPaymentToOrder(order.id, paymentResponse.id)
+      }
     } catch (error) {
       console.error('No se pudo crear el pago:', error)
       // Manejo de errores en la interfaz, como mostrar un mensaje de error al usuario
     }
+
+    onRefetch()
   }
 
   useEffect(() => { getOrdersByTable(id, '', '-status,created_at') }, [refetch])

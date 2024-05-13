@@ -23,4 +23,5 @@ class OrderSerializer(ModelSerializer):
             "close",
             "created_at",
             "payment_data",
+            "payment",
         )

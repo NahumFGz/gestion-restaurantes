@@ -62,3 +62,23 @@ export async function addOrderToTableApi (idTable, idProduct, token) {
     throw new Error('Error al añadir la orden')
   }
 }
+
+export async function addPaymentToOrderApi (idOrder, idPayment, token) {
+  try {
+    const url = `${API_KEY}/api/orders/${idOrder}/`
+    const paramas = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`
+      },
+      body: JSON.stringify({
+        payment: idPayment
+      })
+    }
+
+    await fetch(url, paramas)
+  } catch (error) {
+    throw new Error('Error al añadir el pago a la orden')
+  }
+}
