@@ -17,8 +17,23 @@ export function TableDetailsAdmin () {
   const openCloseModal = () => setShowModal((prev) => !prev)
   const onCreatePayment = () => {
     const result = window.confirm('¿Estás seguro de generar la cuenta?')
+
     if (result) {
-      console.log('Generar cuenta')
+      let totalPayment = 0
+      orders.forEach((order) => {
+        totalPayment += Number(order.product_data.price)
+      })
+
+      const resultTypePayment = window.confirm('Pago con tarjeta? presiona ACEPTAR para confirmar o CANCELAR para pagar en efectivo')
+
+      const paymentData = {
+        table: id,
+        total_payment: totalPayment.toFixed(2),
+        payment_type: resultTypePayment ? 'CARD' : 'CASH',
+        status_payment: 'PENDING'
+      }
+
+      console.log(paymentData)
     }
   }
 
