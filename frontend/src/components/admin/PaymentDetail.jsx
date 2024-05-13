@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { usePayment } from '../../hooks/usePayment'
+import { useOrder } from '../../hooks'
 
 export function PaymentDetail ({ payment, orders, openCloseModal, onReloadOrders }) {
   const [paymentMethod, setPaymentMethod] = useState('Tarjeta de crédito') // Estado inicial
   const { closePayment } = usePayment()
+  const { closeOrder } = useOrder()
 
   console.log('payment', payment)
 
@@ -12,6 +14,14 @@ export function PaymentDetail ({ payment, orders, openCloseModal, onReloadOrders
     if (confirm) {
       // Lógica para cerrar el pago
       await closePayment(payment.id)
+
+      // Lógica para cerrar la orden
+      for await (const order of orders) {
+        await closeOrder(order.id)
+        console.log('Orden cerrada:', order.id)
+      }
+
+      onReloadOrders()
       openCloseModal()
     }
   }

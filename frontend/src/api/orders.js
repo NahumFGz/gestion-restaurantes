@@ -82,3 +82,23 @@ export async function addPaymentToOrderApi (idOrder, idPayment, token) {
     throw new Error('Error al añadir el pago a la orden')
   }
 }
+
+export async function closeOrderApi (idOrder, token) {
+  try {
+    const url = `${API_KEY}/api/orders/${idOrder}/`
+    const paramas = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`
+      },
+      body: JSON.stringify({
+        close: true
+      })
+    }
+
+    await fetch(url, paramas)
+  } catch (error) {
+    throw new Error('Error al cerrar la orden')
+  }
+}
