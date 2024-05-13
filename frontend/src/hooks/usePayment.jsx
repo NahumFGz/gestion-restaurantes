@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { createPaymentApi } from '../api/payments'
+import { createPaymentApi, getPaymentByTableApi } from '../api/payments'
+import { useAuth } from './useAuth'
 
 export function usePayment () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [payment, setPayment] = useState(null)
+  const { auth } = useAuth()
 
   const createPayment = async (paymentData) => {
     try {
@@ -21,5 +23,19 @@ export function usePayment () {
     }
   }
 
-  return { loading, error, payment, createPayment }
+  const getPaymentByTable = async (idTable) => {
+    try {
+      setLoading(true)
+      setError(null)
+      const result = await getPaymentByTableApi(idTable, auth.token)
+      setPayment(result)
+      setLoading(false)
+      return result
+    } catch (error) {
+      setError(error.message || 'Error al obtener los pagos')
+      setLoading(false)
+    }
+  }
+
+  return { loading, error, payment, createPayment, getPaymentByTable }
 }

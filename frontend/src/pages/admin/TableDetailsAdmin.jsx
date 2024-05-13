@@ -12,8 +12,9 @@ export function TableDetailsAdmin () {
   const { getTable, table } = useTables()
   const { id } = useParams()
   const [refetch, setRefetch] = useState(false)
+  const [paymentData, setPaymentData] = useState(null)
   const [showModal, setShowModal] = useState(false)
-  const { createPayment } = usePayment()
+  const { createPayment, getPaymentByTable } = usePayment()
 
   const onRefetch = () => setRefetch((prev) => !prev)
   const openCloseModal = () => setShowModal((prev) => !prev)
@@ -49,13 +50,29 @@ export function TableDetailsAdmin () {
 
   useEffect(() => { getOrdersByTable(id, '', '-status,created_at') }, [refetch])
   useEffect(() => { getTable(id) }, [id])
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await getPaymentByTable(id)
+        if (response.length > 0) {
+          console.log('Pago pedido')
+          setPaymentData(response[0])
+        } else {
+          console.log('Cuenta no generada')
+        }
+      } catch (error) {
+        console.error('Error al obtener los pagos:', error)
+      }
+    })()
+  }, [refetch])
 
   return (
     <>
       <HeaderPage
         title={`Mesa ${table?.number || ''}`}
-        btnTitle='Añadir pedido' btnClick={openCloseModal}
-        btnTitleTwo='Generar cuenta'
+        btnTitle={paymentData ? 'Ver cuenta' : 'Agregar pedido'}
+        btnClick={openCloseModal}
+        btnTitleTwo={paymentData ? null : 'Generar cuenta'}
         btnClickTwo={() => onCreatePayment()}
       />
 
@@ -70,7 +87,13 @@ export function TableDetailsAdmin () {
         show={showModal}
         onClose={openCloseModal}
       >
-        <AddOrderForm idTable={id} openCloseModal={openCloseModal} onRefetch={onRefetch} />
+        {
+          paymentData
+            ? (
+              <p>Detalles de cuenta</p>
+              )
+            : <AddOrderForm idTable={id} openCloseModal={openCloseModal} onRefetch={onRefetch} />
+        }
       </ModalBasic>
 
     </>
