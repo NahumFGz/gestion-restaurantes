@@ -3,10 +3,13 @@ import icon from '../../assets/table.svg'
 import { getOrdersByTableApi } from '../../api/orders'
 import { ORDER_STATUS } from '../../utils/constants'
 import { Link } from 'react-router-dom'
+import { usePayment } from '../../hooks/usePayment'
 
 export function Table ({ table, reload }) {
   const [orders, setOrders] = useState([])
   const [tableBusy, setTableBusy] = useState(false)
+  const [pendingPayment, setPendingPayment] = useState(false)
+  const { getPaymentByTable } = usePayment()
 
   useEffect(() => {
     const fetchOrdersPending = async () => {
@@ -27,8 +30,22 @@ export function Table ({ table, reload }) {
     fetchOrdersDelivered()
   }, [table.id, reload])
 
+  useEffect(() => {
+    (
+      async () => {
+        const response = await getPaymentByTable(table.id)
+        if (response.length > 0) {
+          setPendingPayment(true)
+        }
+      }
+
+    )()
+  }, [reload])
+
   const getBackgroundClass = () => {
-    if (tableBusy) {
+    if (pendingPayment) {
+      return 'bg-red-200'
+    } else if (tableBusy) {
       return 'bg-yellow-200'
     } else if (Object.keys(orders).length > 0) {
       return 'bg-blue-200'
@@ -45,6 +62,14 @@ export function Table ({ table, reload }) {
             {Object.keys(orders).length}
           </div>
         )}
+
+        {
+          pendingPayment && (
+            <div className='fixed bg-green-500 text-white text-xs font-bold rounded-full px-4'>
+              Solicitud de cuenta
+            </div>
+          )
+        }
 
         <div>
           <img
